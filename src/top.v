@@ -10,6 +10,9 @@ module top (
     input RXC,
     input RX_CTL,
     input [3:0] RXD,
+    output TXC,
+    output TX_CTL,
+    output [3:0] TXD,
 
     // MDIO INTERFACE
     inout MDIO,
@@ -27,12 +30,14 @@ module top (
     wire rst_n_phy;
     assign rst_n_phy = (rst_n && locked); // reset finished and clock confirmed at 25 MHz
 
-    wire rst_n_mdio;
-    assign rst_n_mdio = (sync_rst_n && PHY_init_complete);
+    wire rst_n_ready;
+    assign rst_n_ready = (sync_rst_n && PHY_init_complete);
 
     localparam width = 8;
     (* MARK_DEBUG = "TRUE" *) wire [width-1:0] data;
-    //(* MARK_DEBUG = "TRUE" *) wire byte_valid;
+
+    
+    (* MARK_DEBUG = "TRUE" *) wire good_frame;
 
       clk_wiz_0 clk_wiz
        (
@@ -56,7 +61,7 @@ module top (
 
     MDIO_master #() MDIO_master(
         .clk(clk),
-        .rst_n(rst_n_mdio),
+        .rst_n(rst_n_ready),
         .MDIO(MDIO),
         .MDC(MDC)
     );
@@ -69,15 +74,23 @@ module top (
     	.sync_out(sync_rst_n)
     );
 
-    //RGMII_top #() rgmii(
-    //.clk(clk),
-    //.rst_n(sync_rst_n),
-    //.RXC(RXC),
-    //.RXD(RXD),
-    //.RX_CTL(RX_CTL),
-    //.data(data),
-    //.byte_valid(byte_valid)
-    //);
+    RGMII_frame_parser #(8) data_in(
+        .clk(clk),
+        .rst_n(rst_n_ready),
+        .RXC(RXC),
+        .RXD(RXD),
+        .RX_CTL(RX_CTL),
+        .good_frame(good_frame)
+        //output frame_type - add this later
+    );
 
+    RGMII_transmitter data_out(
+    .clk(clk),
+    .rst_n(rst_n_ready),
+    .en(1'b1), 
+    .TXC(TXC),
+    .TXD(TXD),
+    .TX_CTL(TX_CTL)
+    );
 
 endmodule
