@@ -1,13 +1,21 @@
-# no longer in use - used previously to compile testbenches
-TB     = MDC_tb
+# Compiles and runs the frame parser testbench
+TB     = frame_parser_tb
 TB_DIR = testbenches
-SRC    = $(wildcard src/MDC.v)
+SRC    = src/RGMII_frame_parser.v \
+         src/RGMII_byte_packager.v \
+         src/RGMII_receiver.v \
+         src/synchroniser.v \
+         $(wildcard src/async_FIFO/*.v)
 OUT    = sim.out
+
+# Xilinx simulation models (BUFG, IDDR)
+XILINX  = C:/AMDDesignTools/2025.2/data/verilog/src
+UNISIMS = $(XILINX)/unisims
 
 all: run
 
 $(OUT): $(TB_DIR)/$(TB).v $(SRC)
-	iverilog -g2005 -Wall -o $(OUT) $(TB_DIR)/$(TB).v $(SRC)
+	iverilog -g2005 -Wall -o $(OUT) -y $(UNISIMS) $(TB_DIR)/$(TB).v $(SRC) $(XILINX)/glbl.v
 
 run: $(OUT)
 	vvp $(OUT) -fst

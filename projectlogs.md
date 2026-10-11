@@ -134,3 +134,5 @@ PHY_reset.v
 ## 08/10/2026
 - Researched CRC, how to implement it in digital logic
 - Streamlined byte parsing logic, reducing reg count
+
+## 11/10/2026
