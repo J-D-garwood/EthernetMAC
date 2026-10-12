@@ -56,7 +56,10 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param tcl.collectionResultDisplayLimit 0
 set_param general.usePosixSpawnForFork 1
+set_param chipscope.maxJobs 4
+set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tfgg484-2
 
@@ -80,8 +83,10 @@ read_verilog -library xil_defaultlib {
   C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/MDIO.v
   C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/MDIO_master.v
   C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/PHY_INIT.v
+  C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/RGMII_byte_packager.v
+  C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/RGMII_frame_parser.v
   C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/RGMII_receiver.v
-  C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/RGMII_top.v
+  C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/RGMII_transmitter.v
   {C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/async FIFO/gray_to_bin.v}
   {C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/async FIFO/r_ptr_handler.v}
   C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/sources_1/imports/src/synchroniser.v
@@ -103,8 +108,8 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints.xdc
-set_property used_in_implementation false [get_files C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints.xdc]
+read_xdc C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints_v3.xdc
+set_property used_in_implementation false [get_files C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints_v3.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-| Date         : Sun Oct  4 16:28:40 2026
+| Date         : Mon Oct 12 18:42:58 2026
 | Host         : LAPTOP-PW0NGYLL running 64-bit major release  (build 9200)
 | Command      : report_methodology -file top_methodology_drc_routed.rpt -pb top_methodology_drc_routed.pb -rpx top_methodology_drc_routed.rpx
 | Design       : top
@@ -28,7 +28,8 @@ Table of Contents
 | Rule      | Severity | Description                                            | Checks |
 +-----------+----------+--------------------------------------------------------+--------+
 | LUTAR-1   | Warning  | LUT drives async reset alert                           | 5      |
-| TIMING-18 | Warning  | Missing input or output delay                          | 6      |
+| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal             | 1      |
+| TIMING-18 | Warning  | Missing input or output delay                          | 5      |
 | XDCB-5    | Warning  | Runtime inefficient way to find pin objects            | 2      |
 | XDCC-1    | Warning  | Scoped Clock constraint overwritten with the same name | 1      |
 | XDCC-7    | Warning  | Scoped Clock constraint overwritten on the same source | 1      |
@@ -66,8 +67,12 @@ Related violations: <none>
 
 LUTAR-1#5 Warning
 LUT drives async reset alert  
-LUT cell phy_init/mdio_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) MDIO_master/mdio/receive_sync/Ds_reg[0]/CLR
-MDIO_master/mdio/receive_sync/sync_out_reg[0]/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+LUT cell sync_rst/Ds[0]_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) sync_rst/Ds_reg[0]/CLR, sync_rst/sync_out_reg[0]/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
+SYNTH-6#1 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance data_in/byte_packager/receiver_fifo/mem/memory_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 TIMING-18#1 Warning
@@ -95,34 +100,29 @@ Missing input or output delay
 An input delay is missing on RX_CTL relative to the rising and/or falling clock edge(s) of rxc.
 Related violations: <none>
 
-TIMING-18#6 Warning
-Missing input or output delay  
-An input delay is missing on rst_n relative to the rising and/or falling clock edge(s) of rxc.
-Related violations: <none>
-
 XDCB-5#1 Warning
 Runtime inefficient way to find pin objects  
 The option '-from : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/allx_typeA_match_detection.ltlib_v1_0_3_allx_typeA_inst/DUT/u_srl_drive/CLK}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '44' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
-Current XDC: c:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.runs/impl_1/.Xil/Vivado-29524-LAPTOP-PW0NGYLL/u_ila_0_CV.0/out/ila_early.xdc (Line: 72)
+Current XDC: c:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.runs/impl_1/.Xil/Vivado-32908-LAPTOP-PW0NGYLL/u_ila_0_CV.0/out/ila_early.xdc (Line: 72)
 Related violations: <none>
 
 XDCB-5#2 Warning
 Runtime inefficient way to find pin objects  
 The option '-to : [get_pins -hierarchical -filter {NAME =~ *ila_core_inst/u_trig/N_DDR_TC.N_DDR_TC_INST[*].U_TC/yes_output_reg.dout_reg_reg/D}]' of constraint 'set_false_path' uses inefficient query to find pin objects (see constraint position '44' in the Timing Constraint window in Vivado IDE). To reduce runtime, it is recommended to get the pins through the cell objects. Please refer to Using Constraints Guide (Constraints Efficiency). An example of optimal query is: get_pins -filter {REF_PIN_NAME=~yy*} -of_objects [get_cells -hierarchical xx*].
-Current XDC: c:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.runs/impl_1/.Xil/Vivado-29524-LAPTOP-PW0NGYLL/u_ila_0_CV.0/out/ila_early.xdc (Line: 72)
+Current XDC: c:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.runs/impl_1/.Xil/Vivado-32908-LAPTOP-PW0NGYLL/u_ila_0_CV.0/out/ila_early.xdc (Line: 72)
 Related violations: <none>
 
 XDCC-1#1 Warning
 Scoped Clock constraint overwritten with the same name  
 A new clock constraint create_clock overrides a previous scoped clock constraint with the same name. It is not recommended to override a scoped (typically an IP) clock constraint and could result in unexpected behaviors.
-New: create_clock -period 5.000 [get_ports sys_clk_p] (Source: C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints.xdc (Line: 9))
+New: create_clock -period 5.000 [get_ports sys_clk_p] (Source: C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints_v3.xdc (Line: 9))
 Previous: create_clock -period 5.000 [get_ports sys_clk_p] (Source: C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc (Line: 53))
 Related violations: <none>
 
 XDCC-7#1 Warning
 Scoped Clock constraint overwritten on the same source  
 A new clock constraint create_clock overrides a previous scoped clock constraint defined on the same source. It is not recommended to override a scoped (typically an IP) clock constraint and could result in unexpected behaviors.
-New: create_clock -period 5.000 [get_ports sys_clk_p] (Source: C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints.xdc (Line: 9))
+New: create_clock -period 5.000 [get_ports sys_clk_p] (Source: C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.srcs/constrs_1/imports/constraints/constraints_v3.xdc (Line: 9))
 Previous: create_clock -period 5.000 [get_ports sys_clk_p] (Source: C:/Users/garwo/Dev/EthernetStack/EthernetStack/EthernetStack.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.xdc (Line: 53))
 Related violations: <none>
 

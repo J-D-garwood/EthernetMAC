@@ -9,7 +9,7 @@ module RGMII_transmitter(
 
 assign TXC = clk;
 
-reg [575:0] frame;
+(* MARK_DEBUG = "TRUE" *) reg [575:0] frame;
 
 localparam preamble = {7{8'b01010101}};
 localparam dest_mac = {6{8'hFF}};

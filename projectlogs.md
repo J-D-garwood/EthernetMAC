@@ -98,7 +98,7 @@ PHY_reset.v
 ![alt text](image-5.png)
 ![alt text](image-3.png)
 - Set eth adapter to 100 Mbps (full duplex)
-
+# 1.3. and 1.4. Frame receiving and transmitting
 ![alt text](image-4.png)
 
 - Started work on RGMII receiving using DDR registers
@@ -136,3 +136,12 @@ PHY_reset.v
 - Streamlined byte parsing logic, reducing reg count
 
 ## 11/10/2026
+- Completed CRC checking and error checking (outputs good frame flag)
+- added basic transmitting of message "hello"
+
+## 12/10/2026
+- Tested CRC - Confirmed simple 100 Mbps tranmission and reception working
+![alt text](image-9.png)
+![alt text](image-10.png)
+![alt text](image-11.png)
+

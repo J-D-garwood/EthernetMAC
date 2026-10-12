@@ -27,6 +27,7 @@
   <ObjectList object_type="hw_probe" gui_info="">
     <Object name="MDIO_master/mdio/done" gui_info=""/>
     <Object name="data_valid" gui_info="Trigger Setup=0"/>
+    <Object name="good_frame" gui_info="Trigger Setup=0"/>
   </ObjectList>
   <ObjectList object_type="hw_sysmon" gui_info="">
     <Object name="XADC" gui_info="dashboard_1=[TEMPERATURE=-65281;SCAN_RATE=1000;TRACK_TIME=1;]"/>
@@ -63,7 +64,7 @@
         <Option Id="DISPLAY_VISIBILITY" value=""/>
         <Option Id="HW_ILA" value="hw_ila_1"/>
         <Option Id="LINK_TO_WAVEFORM" value="1"/>
-        <Option Id="MAP" value="probe5[0]"/>
+        <Option Id="MAP" value="probe6[0]"/>
         <Option Id="NAME.CUSTOM" value=""/>
         <Option Id="NAME.SELECT" value="Long"/>
         <Option Id="SOURCE" value="netlist"/>
@@ -84,7 +85,7 @@
         <Option Id="DISPLAY_VISIBILITY" value=""/>
         <Option Id="HW_ILA" value="hw_ila_1"/>
         <Option Id="LINK_TO_WAVEFORM" value="1"/>
-        <Option Id="MAP" value="probe6[0]"/>
+        <Option Id="MAP" value="probe7[0]"/>
         <Option Id="NAME.CUSTOM" value=""/>
         <Option Id="NAME.SELECT" value="Long"/>
         <Option Id="SOURCE" value="netlist"/>
@@ -173,7 +174,7 @@
         <Option Id="DISPLAY_VISIBILITY" value=""/>
         <Option Id="HW_ILA" value="hw_ila_1"/>
         <Option Id="LINK_TO_WAVEFORM" value="1"/>
-        <Option Id="MAP" value="probe7[0]"/>
+        <Option Id="MAP" value="probe8[0]"/>
         <Option Id="NAME.CUSTOM" value=""/>
         <Option Id="NAME.SELECT" value="Long"/>
         <Option Id="SOURCE" value="netlist"/>
@@ -184,7 +185,7 @@
         <net name="MDIO_master/mdio/transmit"/>
       </nets>
     </probe>
-    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
       <probeOptions Id="DebugProbeParams">
         <Option Id="CAPTURE_COMPARE_VALUE" value="eq4&apos;hX"/>
         <Option Id="COMPARE_VALUE.0" value="eq4&apos;hX"/>
@@ -208,6 +209,630 @@
         <net name="data[0]"/>
       </nets>
     </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq8&apos;hXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe2[7:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq8&apos;hXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="data[7]"/>
+        <net name="data[6]"/>
+        <net name="data[5]"/>
+        <net name="data[4]"/>
+        <net name="data[3]"/>
+        <net name="data[2]"/>
+        <net name="data[1]"/>
+        <net name="data[0]"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="bus" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq576&apos;hXXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq576&apos;hXXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe3[575:0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq576&apos;hXXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX_XXXX"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="data_out/frame[575]"/>
+        <net name="data_out/frame[574]"/>
+        <net name="data_out/frame[573]"/>
+        <net name="data_out/frame[572]"/>
+        <net name="data_out/frame[571]"/>
+        <net name="data_out/frame[570]"/>
+        <net name="data_out/frame[569]"/>
+        <net name="data_out/frame[568]"/>
+        <net name="data_out/frame[567]"/>
+        <net name="data_out/frame[566]"/>
+        <net name="data_out/frame[565]"/>
+        <net name="data_out/frame[564]"/>
+        <net name="data_out/frame[563]"/>
+        <net name="data_out/frame[562]"/>
+        <net name="data_out/frame[561]"/>
+        <net name="data_out/frame[560]"/>
+        <net name="data_out/frame[559]"/>
+        <net name="data_out/frame[558]"/>
+        <net name="data_out/frame[557]"/>
+        <net name="data_out/frame[556]"/>
+        <net name="data_out/frame[555]"/>
+        <net name="data_out/frame[554]"/>
+        <net name="data_out/frame[553]"/>
+        <net name="data_out/frame[552]"/>
+        <net name="data_out/frame[551]"/>
+        <net name="data_out/frame[550]"/>
+        <net name="data_out/frame[549]"/>
+        <net name="data_out/frame[548]"/>
+        <net name="data_out/frame[547]"/>
+        <net name="data_out/frame[546]"/>
+        <net name="data_out/frame[545]"/>
+        <net name="data_out/frame[544]"/>
+        <net name="data_out/frame[543]"/>
+        <net name="data_out/frame[542]"/>
+        <net name="data_out/frame[541]"/>
+        <net name="data_out/frame[540]"/>
+        <net name="data_out/frame[539]"/>
+        <net name="data_out/frame[538]"/>
+        <net name="data_out/frame[537]"/>
+        <net name="data_out/frame[536]"/>
+        <net name="data_out/frame[535]"/>
+        <net name="data_out/frame[534]"/>
+        <net name="data_out/frame[533]"/>
+        <net name="data_out/frame[532]"/>
+        <net name="data_out/frame[531]"/>
+        <net name="data_out/frame[530]"/>
+        <net name="data_out/frame[529]"/>
+        <net name="data_out/frame[528]"/>
+        <net name="data_out/frame[527]"/>
+        <net name="data_out/frame[526]"/>
+        <net name="data_out/frame[525]"/>
+        <net name="data_out/frame[524]"/>
+        <net name="data_out/frame[523]"/>
+        <net name="data_out/frame[522]"/>
+        <net name="data_out/frame[521]"/>
+        <net name="data_out/frame[520]"/>
+        <net name="data_out/frame[519]"/>
+        <net name="data_out/frame[518]"/>
+        <net name="data_out/frame[517]"/>
+        <net name="data_out/frame[516]"/>
+        <net name="data_out/frame[515]"/>
+        <net name="data_out/frame[514]"/>
+        <net name="data_out/frame[513]"/>
+        <net name="data_out/frame[512]"/>
+        <net name="data_out/frame[511]"/>
+        <net name="data_out/frame[510]"/>
+        <net name="data_out/frame[509]"/>
+        <net name="data_out/frame[508]"/>
+        <net name="data_out/frame[507]"/>
+        <net name="data_out/frame[506]"/>
+        <net name="data_out/frame[505]"/>
+        <net name="data_out/frame[504]"/>
+        <net name="data_out/frame[503]"/>
+        <net name="data_out/frame[502]"/>
+        <net name="data_out/frame[501]"/>
+        <net name="data_out/frame[500]"/>
+        <net name="data_out/frame[499]"/>
+        <net name="data_out/frame[498]"/>
+        <net name="data_out/frame[497]"/>
+        <net name="data_out/frame[496]"/>
+        <net name="data_out/frame[495]"/>
+        <net name="data_out/frame[494]"/>
+        <net name="data_out/frame[493]"/>
+        <net name="data_out/frame[492]"/>
+        <net name="data_out/frame[491]"/>
+        <net name="data_out/frame[490]"/>
+        <net name="data_out/frame[489]"/>
+        <net name="data_out/frame[488]"/>
+        <net name="data_out/frame[487]"/>
+        <net name="data_out/frame[486]"/>
+        <net name="data_out/frame[485]"/>
+        <net name="data_out/frame[484]"/>
+        <net name="data_out/frame[483]"/>
+        <net name="data_out/frame[482]"/>
+        <net name="data_out/frame[481]"/>
+        <net name="data_out/frame[480]"/>
+        <net name="data_out/frame[479]"/>
+        <net name="data_out/frame[478]"/>
+        <net name="data_out/frame[477]"/>
+        <net name="data_out/frame[476]"/>
+        <net name="data_out/frame[475]"/>
+        <net name="data_out/frame[474]"/>
+        <net name="data_out/frame[473]"/>
+        <net name="data_out/frame[472]"/>
+        <net name="data_out/frame[471]"/>
+        <net name="data_out/frame[470]"/>
+        <net name="data_out/frame[469]"/>
+        <net name="data_out/frame[468]"/>
+        <net name="data_out/frame[467]"/>
+        <net name="data_out/frame[466]"/>
+        <net name="data_out/frame[465]"/>
+        <net name="data_out/frame[464]"/>
+        <net name="data_out/frame[463]"/>
+        <net name="data_out/frame[462]"/>
+        <net name="data_out/frame[461]"/>
+        <net name="data_out/frame[460]"/>
+        <net name="data_out/frame[459]"/>
+        <net name="data_out/frame[458]"/>
+        <net name="data_out/frame[457]"/>
+        <net name="data_out/frame[456]"/>
+        <net name="data_out/frame[455]"/>
+        <net name="data_out/frame[454]"/>
+        <net name="data_out/frame[453]"/>
+        <net name="data_out/frame[452]"/>
+        <net name="data_out/frame[451]"/>
+        <net name="data_out/frame[450]"/>
+        <net name="data_out/frame[449]"/>
+        <net name="data_out/frame[448]"/>
+        <net name="data_out/frame[447]"/>
+        <net name="data_out/frame[446]"/>
+        <net name="data_out/frame[445]"/>
+        <net name="data_out/frame[444]"/>
+        <net name="data_out/frame[443]"/>
+        <net name="data_out/frame[442]"/>
+        <net name="data_out/frame[441]"/>
+        <net name="data_out/frame[440]"/>
+        <net name="data_out/frame[439]"/>
+        <net name="data_out/frame[438]"/>
+        <net name="data_out/frame[437]"/>
+        <net name="data_out/frame[436]"/>
+        <net name="data_out/frame[435]"/>
+        <net name="data_out/frame[434]"/>
+        <net name="data_out/frame[433]"/>
+        <net name="data_out/frame[432]"/>
+        <net name="data_out/frame[431]"/>
+        <net name="data_out/frame[430]"/>
+        <net name="data_out/frame[429]"/>
+        <net name="data_out/frame[428]"/>
+        <net name="data_out/frame[427]"/>
+        <net name="data_out/frame[426]"/>
+        <net name="data_out/frame[425]"/>
+        <net name="data_out/frame[424]"/>
+        <net name="data_out/frame[423]"/>
+        <net name="data_out/frame[422]"/>
+        <net name="data_out/frame[421]"/>
+        <net name="data_out/frame[420]"/>
+        <net name="data_out/frame[419]"/>
+        <net name="data_out/frame[418]"/>
+        <net name="data_out/frame[417]"/>
+        <net name="data_out/frame[416]"/>
+        <net name="data_out/frame[415]"/>
+        <net name="data_out/frame[414]"/>
+        <net name="data_out/frame[413]"/>
+        <net name="data_out/frame[412]"/>
+        <net name="data_out/frame[411]"/>
+        <net name="data_out/frame[410]"/>
+        <net name="data_out/frame[409]"/>
+        <net name="data_out/frame[408]"/>
+        <net name="data_out/frame[407]"/>
+        <net name="data_out/frame[406]"/>
+        <net name="data_out/frame[405]"/>
+        <net name="data_out/frame[404]"/>
+        <net name="data_out/frame[403]"/>
+        <net name="data_out/frame[402]"/>
+        <net name="data_out/frame[401]"/>
+        <net name="data_out/frame[400]"/>
+        <net name="data_out/frame[399]"/>
+        <net name="data_out/frame[398]"/>
+        <net name="data_out/frame[397]"/>
+        <net name="data_out/frame[396]"/>
+        <net name="data_out/frame[395]"/>
+        <net name="data_out/frame[394]"/>
+        <net name="data_out/frame[393]"/>
+        <net name="data_out/frame[392]"/>
+        <net name="data_out/frame[391]"/>
+        <net name="data_out/frame[390]"/>
+        <net name="data_out/frame[389]"/>
+        <net name="data_out/frame[388]"/>
+        <net name="data_out/frame[387]"/>
+        <net name="data_out/frame[386]"/>
+        <net name="data_out/frame[385]"/>
+        <net name="data_out/frame[384]"/>
+        <net name="data_out/frame[383]"/>
+        <net name="data_out/frame[382]"/>
+        <net name="data_out/frame[381]"/>
+        <net name="data_out/frame[380]"/>
+        <net name="data_out/frame[379]"/>
+        <net name="data_out/frame[378]"/>
+        <net name="data_out/frame[377]"/>
+        <net name="data_out/frame[376]"/>
+        <net name="data_out/frame[375]"/>
+        <net name="data_out/frame[374]"/>
+        <net name="data_out/frame[373]"/>
+        <net name="data_out/frame[372]"/>
+        <net name="data_out/frame[371]"/>
+        <net name="data_out/frame[370]"/>
+        <net name="data_out/frame[369]"/>
+        <net name="data_out/frame[368]"/>
+        <net name="data_out/frame[367]"/>
+        <net name="data_out/frame[366]"/>
+        <net name="data_out/frame[365]"/>
+        <net name="data_out/frame[364]"/>
+        <net name="data_out/frame[363]"/>
+        <net name="data_out/frame[362]"/>
+        <net name="data_out/frame[361]"/>
+        <net name="data_out/frame[360]"/>
+        <net name="data_out/frame[359]"/>
+        <net name="data_out/frame[358]"/>
+        <net name="data_out/frame[357]"/>
+        <net name="data_out/frame[356]"/>
+        <net name="data_out/frame[355]"/>
+        <net name="data_out/frame[354]"/>
+        <net name="data_out/frame[353]"/>
+        <net name="data_out/frame[352]"/>
+        <net name="data_out/frame[351]"/>
+        <net name="data_out/frame[350]"/>
+        <net name="data_out/frame[349]"/>
+        <net name="data_out/frame[348]"/>
+        <net name="data_out/frame[347]"/>
+        <net name="data_out/frame[346]"/>
+        <net name="data_out/frame[345]"/>
+        <net name="data_out/frame[344]"/>
+        <net name="data_out/frame[343]"/>
+        <net name="data_out/frame[342]"/>
+        <net name="data_out/frame[341]"/>
+        <net name="data_out/frame[340]"/>
+        <net name="data_out/frame[339]"/>
+        <net name="data_out/frame[338]"/>
+        <net name="data_out/frame[337]"/>
+        <net name="data_out/frame[336]"/>
+        <net name="data_out/frame[335]"/>
+        <net name="data_out/frame[334]"/>
+        <net name="data_out/frame[333]"/>
+        <net name="data_out/frame[332]"/>
+        <net name="data_out/frame[331]"/>
+        <net name="data_out/frame[330]"/>
+        <net name="data_out/frame[329]"/>
+        <net name="data_out/frame[328]"/>
+        <net name="data_out/frame[327]"/>
+        <net name="data_out/frame[326]"/>
+        <net name="data_out/frame[325]"/>
+        <net name="data_out/frame[324]"/>
+        <net name="data_out/frame[323]"/>
+        <net name="data_out/frame[322]"/>
+        <net name="data_out/frame[321]"/>
+        <net name="data_out/frame[320]"/>
+        <net name="data_out/frame[319]"/>
+        <net name="data_out/frame[318]"/>
+        <net name="data_out/frame[317]"/>
+        <net name="data_out/frame[316]"/>
+        <net name="data_out/frame[315]"/>
+        <net name="data_out/frame[314]"/>
+        <net name="data_out/frame[313]"/>
+        <net name="data_out/frame[312]"/>
+        <net name="data_out/frame[311]"/>
+        <net name="data_out/frame[310]"/>
+        <net name="data_out/frame[309]"/>
+        <net name="data_out/frame[308]"/>
+        <net name="data_out/frame[307]"/>
+        <net name="data_out/frame[306]"/>
+        <net name="data_out/frame[305]"/>
+        <net name="data_out/frame[304]"/>
+        <net name="data_out/frame[303]"/>
+        <net name="data_out/frame[302]"/>
+        <net name="data_out/frame[301]"/>
+        <net name="data_out/frame[300]"/>
+        <net name="data_out/frame[299]"/>
+        <net name="data_out/frame[298]"/>
+        <net name="data_out/frame[297]"/>
+        <net name="data_out/frame[296]"/>
+        <net name="data_out/frame[295]"/>
+        <net name="data_out/frame[294]"/>
+        <net name="data_out/frame[293]"/>
+        <net name="data_out/frame[292]"/>
+        <net name="data_out/frame[291]"/>
+        <net name="data_out/frame[290]"/>
+        <net name="data_out/frame[289]"/>
+        <net name="data_out/frame[288]"/>
+        <net name="data_out/frame[287]"/>
+        <net name="data_out/frame[286]"/>
+        <net name="data_out/frame[285]"/>
+        <net name="data_out/frame[284]"/>
+        <net name="data_out/frame[283]"/>
+        <net name="data_out/frame[282]"/>
+        <net name="data_out/frame[281]"/>
+        <net name="data_out/frame[280]"/>
+        <net name="data_out/frame[279]"/>
+        <net name="data_out/frame[278]"/>
+        <net name="data_out/frame[277]"/>
+        <net name="data_out/frame[276]"/>
+        <net name="data_out/frame[275]"/>
+        <net name="data_out/frame[274]"/>
+        <net name="data_out/frame[273]"/>
+        <net name="data_out/frame[272]"/>
+        <net name="data_out/frame[271]"/>
+        <net name="data_out/frame[270]"/>
+        <net name="data_out/frame[269]"/>
+        <net name="data_out/frame[268]"/>
+        <net name="data_out/frame[267]"/>
+        <net name="data_out/frame[266]"/>
+        <net name="data_out/frame[265]"/>
+        <net name="data_out/frame[264]"/>
+        <net name="data_out/frame[263]"/>
+        <net name="data_out/frame[262]"/>
+        <net name="data_out/frame[261]"/>
+        <net name="data_out/frame[260]"/>
+        <net name="data_out/frame[259]"/>
+        <net name="data_out/frame[258]"/>
+        <net name="data_out/frame[257]"/>
+        <net name="data_out/frame[256]"/>
+        <net name="data_out/frame[255]"/>
+        <net name="data_out/frame[254]"/>
+        <net name="data_out/frame[253]"/>
+        <net name="data_out/frame[252]"/>
+        <net name="data_out/frame[251]"/>
+        <net name="data_out/frame[250]"/>
+        <net name="data_out/frame[249]"/>
+        <net name="data_out/frame[248]"/>
+        <net name="data_out/frame[247]"/>
+        <net name="data_out/frame[246]"/>
+        <net name="data_out/frame[245]"/>
+        <net name="data_out/frame[244]"/>
+        <net name="data_out/frame[243]"/>
+        <net name="data_out/frame[242]"/>
+        <net name="data_out/frame[241]"/>
+        <net name="data_out/frame[240]"/>
+        <net name="data_out/frame[239]"/>
+        <net name="data_out/frame[238]"/>
+        <net name="data_out/frame[237]"/>
+        <net name="data_out/frame[236]"/>
+        <net name="data_out/frame[235]"/>
+        <net name="data_out/frame[234]"/>
+        <net name="data_out/frame[233]"/>
+        <net name="data_out/frame[232]"/>
+        <net name="data_out/frame[231]"/>
+        <net name="data_out/frame[230]"/>
+        <net name="data_out/frame[229]"/>
+        <net name="data_out/frame[228]"/>
+        <net name="data_out/frame[227]"/>
+        <net name="data_out/frame[226]"/>
+        <net name="data_out/frame[225]"/>
+        <net name="data_out/frame[224]"/>
+        <net name="data_out/frame[223]"/>
+        <net name="data_out/frame[222]"/>
+        <net name="data_out/frame[221]"/>
+        <net name="data_out/frame[220]"/>
+        <net name="data_out/frame[219]"/>
+        <net name="data_out/frame[218]"/>
+        <net name="data_out/frame[217]"/>
+        <net name="data_out/frame[216]"/>
+        <net name="data_out/frame[215]"/>
+        <net name="data_out/frame[214]"/>
+        <net name="data_out/frame[213]"/>
+        <net name="data_out/frame[212]"/>
+        <net name="data_out/frame[211]"/>
+        <net name="data_out/frame[210]"/>
+        <net name="data_out/frame[209]"/>
+        <net name="data_out/frame[208]"/>
+        <net name="data_out/frame[207]"/>
+        <net name="data_out/frame[206]"/>
+        <net name="data_out/frame[205]"/>
+        <net name="data_out/frame[204]"/>
+        <net name="data_out/frame[203]"/>
+        <net name="data_out/frame[202]"/>
+        <net name="data_out/frame[201]"/>
+        <net name="data_out/frame[200]"/>
+        <net name="data_out/frame[199]"/>
+        <net name="data_out/frame[198]"/>
+        <net name="data_out/frame[197]"/>
+        <net name="data_out/frame[196]"/>
+        <net name="data_out/frame[195]"/>
+        <net name="data_out/frame[194]"/>
+        <net name="data_out/frame[193]"/>
+        <net name="data_out/frame[192]"/>
+        <net name="data_out/frame[191]"/>
+        <net name="data_out/frame[190]"/>
+        <net name="data_out/frame[189]"/>
+        <net name="data_out/frame[188]"/>
+        <net name="data_out/frame[187]"/>
+        <net name="data_out/frame[186]"/>
+        <net name="data_out/frame[185]"/>
+        <net name="data_out/frame[184]"/>
+        <net name="data_out/frame[183]"/>
+        <net name="data_out/frame[182]"/>
+        <net name="data_out/frame[181]"/>
+        <net name="data_out/frame[180]"/>
+        <net name="data_out/frame[179]"/>
+        <net name="data_out/frame[178]"/>
+        <net name="data_out/frame[177]"/>
+        <net name="data_out/frame[176]"/>
+        <net name="data_out/frame[175]"/>
+        <net name="data_out/frame[174]"/>
+        <net name="data_out/frame[173]"/>
+        <net name="data_out/frame[172]"/>
+        <net name="data_out/frame[171]"/>
+        <net name="data_out/frame[170]"/>
+        <net name="data_out/frame[169]"/>
+        <net name="data_out/frame[168]"/>
+        <net name="data_out/frame[167]"/>
+        <net name="data_out/frame[166]"/>
+        <net name="data_out/frame[165]"/>
+        <net name="data_out/frame[164]"/>
+        <net name="data_out/frame[163]"/>
+        <net name="data_out/frame[162]"/>
+        <net name="data_out/frame[161]"/>
+        <net name="data_out/frame[160]"/>
+        <net name="data_out/frame[159]"/>
+        <net name="data_out/frame[158]"/>
+        <net name="data_out/frame[157]"/>
+        <net name="data_out/frame[156]"/>
+        <net name="data_out/frame[155]"/>
+        <net name="data_out/frame[154]"/>
+        <net name="data_out/frame[153]"/>
+        <net name="data_out/frame[152]"/>
+        <net name="data_out/frame[151]"/>
+        <net name="data_out/frame[150]"/>
+        <net name="data_out/frame[149]"/>
+        <net name="data_out/frame[148]"/>
+        <net name="data_out/frame[147]"/>
+        <net name="data_out/frame[146]"/>
+        <net name="data_out/frame[145]"/>
+        <net name="data_out/frame[144]"/>
+        <net name="data_out/frame[143]"/>
+        <net name="data_out/frame[142]"/>
+        <net name="data_out/frame[141]"/>
+        <net name="data_out/frame[140]"/>
+        <net name="data_out/frame[139]"/>
+        <net name="data_out/frame[138]"/>
+        <net name="data_out/frame[137]"/>
+        <net name="data_out/frame[136]"/>
+        <net name="data_out/frame[135]"/>
+        <net name="data_out/frame[134]"/>
+        <net name="data_out/frame[133]"/>
+        <net name="data_out/frame[132]"/>
+        <net name="data_out/frame[131]"/>
+        <net name="data_out/frame[130]"/>
+        <net name="data_out/frame[129]"/>
+        <net name="data_out/frame[128]"/>
+        <net name="data_out/frame[127]"/>
+        <net name="data_out/frame[126]"/>
+        <net name="data_out/frame[125]"/>
+        <net name="data_out/frame[124]"/>
+        <net name="data_out/frame[123]"/>
+        <net name="data_out/frame[122]"/>
+        <net name="data_out/frame[121]"/>
+        <net name="data_out/frame[120]"/>
+        <net name="data_out/frame[119]"/>
+        <net name="data_out/frame[118]"/>
+        <net name="data_out/frame[117]"/>
+        <net name="data_out/frame[116]"/>
+        <net name="data_out/frame[115]"/>
+        <net name="data_out/frame[114]"/>
+        <net name="data_out/frame[113]"/>
+        <net name="data_out/frame[112]"/>
+        <net name="data_out/frame[111]"/>
+        <net name="data_out/frame[110]"/>
+        <net name="data_out/frame[109]"/>
+        <net name="data_out/frame[108]"/>
+        <net name="data_out/frame[107]"/>
+        <net name="data_out/frame[106]"/>
+        <net name="data_out/frame[105]"/>
+        <net name="data_out/frame[104]"/>
+        <net name="data_out/frame[103]"/>
+        <net name="data_out/frame[102]"/>
+        <net name="data_out/frame[101]"/>
+        <net name="data_out/frame[100]"/>
+        <net name="data_out/frame[99]"/>
+        <net name="data_out/frame[98]"/>
+        <net name="data_out/frame[97]"/>
+        <net name="data_out/frame[96]"/>
+        <net name="data_out/frame[95]"/>
+        <net name="data_out/frame[94]"/>
+        <net name="data_out/frame[93]"/>
+        <net name="data_out/frame[92]"/>
+        <net name="data_out/frame[91]"/>
+        <net name="data_out/frame[90]"/>
+        <net name="data_out/frame[89]"/>
+        <net name="data_out/frame[88]"/>
+        <net name="data_out/frame[87]"/>
+        <net name="data_out/frame[86]"/>
+        <net name="data_out/frame[85]"/>
+        <net name="data_out/frame[84]"/>
+        <net name="data_out/frame[83]"/>
+        <net name="data_out/frame[82]"/>
+        <net name="data_out/frame[81]"/>
+        <net name="data_out/frame[80]"/>
+        <net name="data_out/frame[79]"/>
+        <net name="data_out/frame[78]"/>
+        <net name="data_out/frame[77]"/>
+        <net name="data_out/frame[76]"/>
+        <net name="data_out/frame[75]"/>
+        <net name="data_out/frame[74]"/>
+        <net name="data_out/frame[73]"/>
+        <net name="data_out/frame[72]"/>
+        <net name="data_out/frame[71]"/>
+        <net name="data_out/frame[70]"/>
+        <net name="data_out/frame[69]"/>
+        <net name="data_out/frame[68]"/>
+        <net name="data_out/frame[67]"/>
+        <net name="data_out/frame[66]"/>
+        <net name="data_out/frame[65]"/>
+        <net name="data_out/frame[64]"/>
+        <net name="data_out/frame[63]"/>
+        <net name="data_out/frame[62]"/>
+        <net name="data_out/frame[61]"/>
+        <net name="data_out/frame[60]"/>
+        <net name="data_out/frame[59]"/>
+        <net name="data_out/frame[58]"/>
+        <net name="data_out/frame[57]"/>
+        <net name="data_out/frame[56]"/>
+        <net name="data_out/frame[55]"/>
+        <net name="data_out/frame[54]"/>
+        <net name="data_out/frame[53]"/>
+        <net name="data_out/frame[52]"/>
+        <net name="data_out/frame[51]"/>
+        <net name="data_out/frame[50]"/>
+        <net name="data_out/frame[49]"/>
+        <net name="data_out/frame[48]"/>
+        <net name="data_out/frame[47]"/>
+        <net name="data_out/frame[46]"/>
+        <net name="data_out/frame[45]"/>
+        <net name="data_out/frame[44]"/>
+        <net name="data_out/frame[43]"/>
+        <net name="data_out/frame[42]"/>
+        <net name="data_out/frame[41]"/>
+        <net name="data_out/frame[40]"/>
+        <net name="data_out/frame[39]"/>
+        <net name="data_out/frame[38]"/>
+        <net name="data_out/frame[37]"/>
+        <net name="data_out/frame[36]"/>
+        <net name="data_out/frame[35]"/>
+        <net name="data_out/frame[34]"/>
+        <net name="data_out/frame[33]"/>
+        <net name="data_out/frame[32]"/>
+        <net name="data_out/frame[31]"/>
+        <net name="data_out/frame[30]"/>
+        <net name="data_out/frame[29]"/>
+        <net name="data_out/frame[28]"/>
+        <net name="data_out/frame[27]"/>
+        <net name="data_out/frame[26]"/>
+        <net name="data_out/frame[25]"/>
+        <net name="data_out/frame[24]"/>
+        <net name="data_out/frame[23]"/>
+        <net name="data_out/frame[22]"/>
+        <net name="data_out/frame[21]"/>
+        <net name="data_out/frame[20]"/>
+        <net name="data_out/frame[19]"/>
+        <net name="data_out/frame[18]"/>
+        <net name="data_out/frame[17]"/>
+        <net name="data_out/frame[16]"/>
+        <net name="data_out/frame[15]"/>
+        <net name="data_out/frame[14]"/>
+        <net name="data_out/frame[13]"/>
+        <net name="data_out/frame[12]"/>
+        <net name="data_out/frame[11]"/>
+        <net name="data_out/frame[10]"/>
+        <net name="data_out/frame[9]"/>
+        <net name="data_out/frame[8]"/>
+        <net name="data_out/frame[7]"/>
+        <net name="data_out/frame[6]"/>
+        <net name="data_out/frame[5]"/>
+        <net name="data_out/frame[4]"/>
+        <net name="data_out/frame[3]"/>
+        <net name="data_out/frame[2]"/>
+        <net name="data_out/frame[1]"/>
+        <net name="data_out/frame[0]"/>
+      </nets>
+    </probe>
     <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
       <probeOptions Id="DebugProbeParams">
         <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
@@ -227,6 +852,27 @@
       </probeOptions>
       <nets>
         <net name="data_valid"/>
+      </nets>
+    </probe>
+    <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">
+      <probeOptions Id="DebugProbeParams">
+        <Option Id="CAPTURE_COMPARE_VALUE" value="eq1&apos;bX"/>
+        <Option Id="COMPARE_VALUE.0" value="eq1&apos;b1"/>
+        <Option Id="DISPLAY_AS_ENUM" value="1"/>
+        <Option Id="DISPLAY_HINT" value=""/>
+        <Option Id="DISPLAY_RADIX" value="HEX"/>
+        <Option Id="DISPLAY_VISIBILITY" value=""/>
+        <Option Id="HW_ILA" value="hw_ila_1"/>
+        <Option Id="LINK_TO_WAVEFORM" value="1"/>
+        <Option Id="MAP" value="probe5[0]"/>
+        <Option Id="NAME.CUSTOM" value=""/>
+        <Option Id="NAME.SELECT" value="Long"/>
+        <Option Id="SOURCE" value="netlist"/>
+        <Option Id="TRIGGER_COMPARE_VALUE" value="eq1&apos;b1"/>
+        <Option Id="WAVEFORM_STYLE" value="Digital"/>
+      </probeOptions>
+      <nets>
+        <net name="good_frame"/>
       </nets>
     </probe>
     <probe type="ila" busType="net" source="netlist" spec="ILA_V2_RT">

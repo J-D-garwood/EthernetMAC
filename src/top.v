@@ -80,6 +80,7 @@ module top (
         .RXC(RXC),
         .RXD(RXD),
         .RX_CTL(RX_CTL),
+        .data(data),
         .good_frame(good_frame)
         //output frame_type - add this later
     );

@@ -11,11 +11,12 @@ module RGMII_frame_parser #(
     input RXC,
     input [3:0] RXD,
     input RX_CTL,
+    output [WIDTH-1:0] data,
     output reg good_frame
     //output frame_type - add this later
 );
 
-wire [(WIDTH-1):0] data;
+//wire [(WIDTH-1):0] data;
 reg [(WIDTH-1):0] DATA;
 wire byte_is_edge; //flag that indicates if byte is at the edge of a frame
 reg BYTE_EDGE;
