@@ -53,6 +53,7 @@ RGMII_byte_packager #(WIDTH, 8) byte_packager(
     .byte_is_edge(byte_is_edge), 
     .frame_error(frame_error), 
     .byte_valid(byte_valid)
+    .Ethertype_seg(Ethertype_seg)
 );
 
 always @(posedge clk) begin

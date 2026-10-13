@@ -51,7 +51,6 @@ module top (
         .clk_in1_n(sys_clk_n)    // input clk_in1_n
     );
 
-// PHY INIT SHOULD ALWAY PRECEDE MDIO HANDSHAKE!! --> Fix this next time
     PHY_INIT #() phy_init(
         .clk(clk),
         .rst_n(sync_rst_n),
@@ -66,7 +65,6 @@ module top (
         .MDC(MDC)
     );
 
-    
     synchroniser #(1) sync_rst(
         .clk(clk),
     	.rst_n(rst_n_phy),
@@ -74,24 +72,26 @@ module top (
     	.sync_out(sync_rst_n)
     );
 
-    RGMII_frame_parser #(8) data_in(
-        .clk(clk),
-        .rst_n(rst_n_ready),
-        .RXC(RXC),
-        .RXD(RXD),
-        .RX_CTL(RX_CTL),
-        .data(data),
-        .good_frame(good_frame)
-        //output frame_type - add this later
-    );
+// INSERT TOP MAC module
 
-    RGMII_transmitter data_out(
-    .clk(clk),
-    .rst_n(rst_n_ready),
-    .en(1'b1), 
-    .TXC(TXC),
-    .TXD(TXD),
-    .TX_CTL(TX_CTL)
-    );
+ //   RGMII_frame_parser #(8) data_in(
+ //       .clk(clk),
+ //       .rst_n(rst_n_ready),
+ //       .RXC(RXC),
+ //       .RXD(RXD),
+ //       .RX_CTL(RX_CTL),
+ //       .data(data),
+ //       .good_frame(good_frame)
+ //       //output frame_type - add this later
+ //   );
+//
+ //   RGMII_transmitter data_out(
+ //   .clk(clk),
+ //   .rst_n(rst_n_ready),
+ //   .en(1'b1), 
+ //   .TXC(TXC),
+ //   .TXD(TXD),
+ //   .TX_CTL(TX_CTL)
+ //   );
 
 endmodule

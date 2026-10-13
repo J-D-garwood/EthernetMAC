@@ -58,6 +58,7 @@ reg byte_idx; // reg which stores which byte index we have
 reg byte_aligned; // reg to store whether bytes have been aligned using SFD
 
 reg first_byte;
+
 RGMII_receiver R (
     .RXC(RXC),
     .RXD(RXD),

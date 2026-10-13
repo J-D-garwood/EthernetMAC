@@ -145,3 +145,9 @@ PHY_reset.v
 ![alt text](image-10.png)
 ![alt text](image-11.png)
 
+# 2.1 Increasing the clock speed
+## 13/10/2026
+- Reasoned about frame processing using microsoft paint ;) 
+![alt text](image-12.png)
+- Moving towards **Hardware Packet Analyser**
+![alt text](image-13.png)
