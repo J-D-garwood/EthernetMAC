@@ -145,9 +145,11 @@ PHY_reset.v
 ![alt text](image-10.png)
 ![alt text](image-11.png)
 
-# 2.1 Increasing the clock speed
+# 2.1 Updating to 1000 Mbps
 ## 13/10/2026
 - Reasoned about frame processing using microsoft paint ;) 
 ![alt text](image-12.png)
-- Moving towards **Hardware Packet Analyser**
-![alt text](image-13.png)
+
+## 14/10/2026
+- Reviewed next steps.. decided to extend to a **Network Packet Analyser** 
+- Main advantage over wireshark is accurate PHY arrival timestamps

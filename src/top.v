@@ -32,12 +32,10 @@ module top (
 
     wire rst_n_ready;
     assign rst_n_ready = (sync_rst_n && PHY_init_complete);
-
-    localparam width = 8;
-    (* MARK_DEBUG = "TRUE" *) wire [width-1:0] data;
-
-    
-    (* MARK_DEBUG = "TRUE" *) wire good_frame;
+    //(* MARK_DEBUG = "TRUE" *) wire [width-1:0] data;
+//
+    //
+    //(* MARK_DEBUG = "TRUE" *) wire good_frame;
 
       clk_wiz_0 clk_wiz
        (

@@ -9,8 +9,7 @@ module MAC #(
     input [WIDTH-1:0] data;
     output TXC,
     output TX_CTL,
-    output [3:0] TXD,
-    output good_frame
+    output [3:0] TXD
 );
 
 wire Ethertype_seg;
