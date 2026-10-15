@@ -65,7 +65,7 @@ PHY_reset.v
 ## 07/09/2026 - 1
 - Determined to use PLL over MMCM as integer division is all that's needed.
 - Tested Vivado CLocking Wizard - adapted to AMD part
-![alt text](image.png)
+![Clocking wizard](misc%20resources%20and%20images/clocking_wizard.png)
 
 ## 07/09/2026 - 2
 - Used Vivado clocking wizard to create pll which divides native clock of 200 MHz down to 25 MHz.
@@ -83,10 +83,10 @@ PHY_reset.v
 - Generated bitstream
 - Programmed board
 - identified that MDIO read data is delayed 1 bit
-![alt text](image-1.png)
+![MDIO read delayed by 1 bit](misc%20resources%20and%20images/MDIO_read_delayed.png)
 - i.e. 0x7949 << 1, with a 1 shifted in  =  0xF293
 - Reduced turnaround time by one clock cycle, issue resolved.
-![alt text](image-2.png)
+![MDIO read fixed](misc%20resources%20and%20images/MDIO_read_fixed.png)
 
 # 1.2. PHY Register Writes
 ## 03/10/2026
@@ -95,11 +95,11 @@ PHY_reset.v
 - Generated tb using claude, confirmed all tests passed
 - Modified MDIO master to write to control reg 0, seting Ethernet Speed to 100 Mbps. Confirmed with following screenshots on Vivado and PC
 
-![alt text](image-5.png)
-![alt text](image-3.png)
+![MDIO write ILA capture](misc%20resources%20and%20images/MDIO_write_ila.png)
+![Ethernet adapter at 100 Mbps](misc%20resources%20and%20images/eth_adapter_100Mbps_status.png)
 - Set eth adapter to 100 Mbps (full duplex)
 # 1.3. and 1.4. Frame receiving and transmitting
-![alt text](image-4.png)
+![Ethernet adapter speed setting](misc%20resources%20and%20images/eth_adapter_speed_setting.png)
 
 - Started work on RGMII receiving using DDR registers
 
@@ -107,7 +107,7 @@ PHY_reset.v
 - Added BUFG to RGMII receiver
 - Researched Async FIFOs for inter CD data transfer
 
-![alt text](image-6.png)
+![Async FIFO block diagram](misc%20resources%20and%20images/async_FIFO_diagram.png)
 
 
 - Created FIFO memory
@@ -117,7 +117,7 @@ PHY_reset.v
 - Added to top level module for raw nibble review
 - Confirmed nibbles received in Vivado ila after synthesis and implementation. See ila waveform capture below of Vivado hardware detection. 
 
-![alt text](image-7.png)
+![RGMII nibbles ILA capture](misc%20resources%20and%20images/RGMII_nibbles_ila.png)
 
 ## 05/10/2026
 - Extracted full bytes
@@ -141,15 +141,21 @@ PHY_reset.v
 
 ## 12/10/2026
 - Tested CRC - Confirmed simple 100 Mbps tranmission and reception working
-![alt text](image-9.png)
-![alt text](image-10.png)
-![alt text](image-11.png)
+![Hello frame Wireshark capture](misc%20resources%20and%20images/hello_wireshark_capture.png)
+![CRC good frame ILA capture 1](misc%20resources%20and%20images/CRC_good_frame_ila_1.png)
+![CRC good frame ILA capture 2](misc%20resources%20and%20images/CRC_good_frame_ila_2.png)
 
-# 2.1 Updating to 1000 Mbps
+# 2.1 Updating to Auto-negotiation
 ## 13/10/2026
 - Reasoned about frame processing using microsoft paint ;) 
-![alt text](image-12.png)
+![Frame processing sketch](misc%20resources%20and%20images/frame_processing_sketch.png)
 
 ## 14/10/2026
 - Reviewed next steps.. decided to extend to a **Network Packet Analyser** 
 - Main advantage over wireshark is accurate PHY arrival timestamps
+
+## 15/10/2026
+- Updated clock speed (Using clocking wizard from vivado) - reviewed fanout signals theory
+- Added Johnson counter to produce MDC
+- Confirmed status register to read once auto-negotiation is complete.
+![alt text](image-14.png)

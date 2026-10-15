@@ -5,10 +5,10 @@ module MDC #(
 )(
     input rst_n,
     input clk,
-    output reg MDC
+    output MDC
 );
 
-reg [3:0] counter;
+reg [4:0] johnson_counter;
 
 always @(negedge clk) begin
     if (!rst_n) begin

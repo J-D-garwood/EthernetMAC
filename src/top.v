@@ -2,7 +2,9 @@
 // NEED TO FLOW CLK THROUGH A PLL
 // TO OUTPUT 25 MHz
 
-module top (
+module top #(
+    parameter CLK_HZ = 125000000
+)(
     input  sys_clk_p,
     input  sys_clk_n,
     input  rst_n,
@@ -32,11 +34,8 @@ module top (
 
     wire rst_n_ready;
     assign rst_n_ready = (sync_rst_n && PHY_init_complete);
-    //(* MARK_DEBUG = "TRUE" *) wire [width-1:0] data;
-//
-    //
-    //(* MARK_DEBUG = "TRUE" *) wire good_frame;
-
+    
+// CHECK THE CLOCK WIZARD SETTINGS IF HAVING ISSUES
       clk_wiz_0 clk_wiz
        (
         // Clock out ports
@@ -56,10 +55,9 @@ module top (
         .init_complete(PHY_init_complete)
     );
 
-    MDIO_master #() MDIO_master(
+    MDC #(CLK_HZ) mdc (
         .clk(clk),
         .rst_n(rst_n_ready),
-        .MDIO(MDIO),
         .MDC(MDC)
     );
 
