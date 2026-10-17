@@ -58,7 +58,6 @@
 // Input Clock   Freq (MHz)    Input Jitter (UI)
 //----------------------------------------------------------------------------
 // __primary_________200.000____________0.010
-// _secondary___________200____________0.010
 
 // The following must be inserted into your Verilog file for this
 // core to be instantiated. Change the instance name and port connections
@@ -68,9 +67,6 @@
 
   clk_wiz_0 instance_name
    (
-    .clk_in2_p(clk_in2_p),    // input clk_in2_p
-    .clk_in2_n(clk_in2_n),    // input clk_in2_n
-    .clk_in_sel(clk_in_sel),   // input clk_in_sel
     // Clock out ports
     .clk_out1(clk_out1),     // output clk_out1
     // Status and control signals

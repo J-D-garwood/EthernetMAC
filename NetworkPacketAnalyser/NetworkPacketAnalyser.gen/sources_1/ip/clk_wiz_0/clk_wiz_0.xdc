@@ -52,10 +52,6 @@
 # Differential clock only needs one constraint
 create_clock -period 5.000 [get_ports clk_in1_p]
 set_input_jitter [get_clocks -of_objects [get_ports clk_in1_p]] 0.050
-# Differential clock only needs one constraint
-create_clock -period 5.000 [get_ports clk_in2_p]
-set_input_jitter [get_clocks -of_objects [get_ports clk_in2_p]] 0.050
-set_clock_groups -physically_exclusive -group [get_clocks -include_generated_clocks -of_objects [get_ports clk_in1_p]] -group [get_clocks -include_generated_clocks -of_objects [get_ports clk_in2_p]]
 
 
 set_property PHASESHIFT_MODE WAVEFORM [get_cells -hierarchical *adv*]

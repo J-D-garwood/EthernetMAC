@@ -36,16 +36,16 @@ module top #(
     assign rst_n_ready = (sync_rst_n && PHY_init_complete);
     
 // CHECK THE CLOCK WIZARD SETTINGS IF HAVING ISSUES
-      clk_wiz_0 clk_wiz
-       (
-        // Clock out ports
-        .clk_out1(clk),     // output clk_out1
-        // Status and control signals
-        .resetn(rst_n), // input resetn
-        .locked(locked),       // output locked
-       // Clock in ports
-        .clk_in1_p(sys_clk_p),    // input clk_in1_p
-        .clk_in1_n(sys_clk_n)    // input clk_in1_n
+    clk_wiz_0 clk_wiz
+     (
+      // Clock out ports
+      .clk_out1(clk),     // output clk_out1
+      // Status and control signals
+      .resetn(rst_n), // input resetn
+      .locked(locked),       // output locked
+     // Clock in ports
+      .clk_in1_p(sys_clk_p),    // input clk_in1_p
+      .clk_in1_n(sys_clk_n)    // input clk_in1_n
     );
 
     PHY_INIT #() phy_init(
@@ -55,12 +55,6 @@ module top #(
         .init_complete(PHY_init_complete)
     );
 
-    MDC #(CLK_HZ) mdc (
-        .clk(clk),
-        .rst_n(rst_n_ready),
-        .MDC(MDC)
-    );
-
     synchroniser #(1) sync_rst(
         .clk(clk),
     	.rst_n(rst_n_phy),
@@ -68,26 +62,33 @@ module top #(
     	.sync_out(sync_rst_n)
     );
 
-// INSERT TOP MAC module
+    wire [1:0] speed_status;
+    wire duplex, linked;
 
- //   RGMII_frame_parser #(8) data_in(
- //       .clk(clk),
- //       .rst_n(rst_n_ready),
- //       .RXC(RXC),
- //       .RXD(RXD),
- //       .RX_CTL(RX_CTL),
- //       .data(data),
- //       .good_frame(good_frame)
- //       //output frame_type - add this later
- //   );
-//
- //   RGMII_transmitter data_out(
- //   .clk(clk),
- //   .rst_n(rst_n_ready),
- //   .en(1'b1), 
- //   .TXC(TXC),
- //   .TXD(TXD),
- //   .TX_CTL(TX_CTL)
- //   );
+    MDIO #() mdio(
+    .clk(clk),
+    .rst_n(sync_rst_n),
+    .MDIO(MDIO),
+    .MDC(MDC),
+    .speed_status(speed_status),
+    .duplex(duplex),
+    .linked(linked)
+    );
+
+    MAC mac(
+    .clk(clk),
+    .rst_n(sync_rst_n),
+    .RXC(RXC),
+    .RX_CTL(RX_CTL),
+    .RXD(RXD),
+    .TXC(TXC),
+    .TX_CTL(TX_CTL),
+    .TXD(TXD),
+    .speed_status(speed_status),
+    .duplex(duplex),
+    .linked(linked)
+    )
+
+
 
 endmodule

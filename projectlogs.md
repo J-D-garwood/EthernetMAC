@@ -158,4 +158,6 @@ PHY_reset.v
 - Updated clock speed (Using clocking wizard from vivado) - reviewed fanout signals theory
 - Added Johnson counter to produce MDC
 - Confirmed status register to read once auto-negotiation is complete.
-![alt text](image-14.png)
+![alt text](image.png)
+
+## 17/10/2026

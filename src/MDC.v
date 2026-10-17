@@ -21,4 +21,5 @@ always @(posedge clk) begin
         johnson_counter[0] <= !johnson_counter[4];
     end
 end
+
 endmodule

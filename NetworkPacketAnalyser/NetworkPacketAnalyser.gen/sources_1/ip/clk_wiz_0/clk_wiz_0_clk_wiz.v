@@ -59,16 +59,12 @@
 // Input Clock   Freq (MHz)    Input Jitter (UI)
 //----------------------------------------------------------------------------
 // __primary_________200.000____________0.010
-// _secondary___________200____________0.010
 
 `timescale 1ps/1ps
 
 module clk_wiz_0_clk_wiz 
 
  (// Clock in ports
-  input         clk_in2_p,
-  input         clk_in2_n,
-  input         clk_in_sel,
   // Clock out ports
   output        clk_out1,
   // Status and control signals
@@ -90,10 +86,6 @@ wire clk_in2_clk_wiz_0;
    (.O (clk_in1_clk_wiz_0),
     .I (clk_in1_clk_wiz_0_buf));
 
-  IBUFDS clkin2_ibufgds
-   (.O  (clk_in2_clk_wiz_0),
-    .I  (clk_in2_p),
-    .IB (clk_in2_n));
 
 
 
@@ -146,8 +138,7 @@ wire clk_in2_clk_wiz_0;
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
-    .CLKIN1_PERIOD        (5.000),
-    .CLKIN2_PERIOD        (5.000))
+    .CLKIN1_PERIOD        (5.000))
   mmcm_adv_inst
     // Output clocks
    (
@@ -167,8 +158,9 @@ wire clk_in2_clk_wiz_0;
      // Input clock control
     .CLKFBIN             (clkfbout_buf_clk_wiz_0),
     .CLKIN1              (clk_in1_clk_wiz_0),
-    .CLKIN2              (clk_in2_clk_wiz_0),
-    .CLKINSEL            (clk_in_sel),
+    .CLKIN2              (1'b0),
+     // Tied to always select the primary input clock
+    .CLKINSEL            (1'b1),
     // Ports for dynamic reconfiguration
     .DADDR               (7'h0),
     .DCLK                (1'b0),

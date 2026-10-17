@@ -2,7 +2,7 @@
 // Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
-// Date        : Thu Oct 15 20:32:59 2026
+// Date        : Sat Oct 17 12:34:04 2026
 // Host        : LAPTOP-PW0NGYLL running 64-bit major release  (build 9200)
 // Command     : write_verilog -force -mode funcsim
 //               c:/Users/garwo/Dev/NetworkPacketAnalyser/NetworkPacketAnalyser/NetworkPacketAnalyser.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v
@@ -15,17 +15,11 @@
 
 (* NotValidForBitStream *)
 module clk_wiz_0
-   (clk_in2_p,
-    clk_in2_n,
-    clk_in_sel,
-    clk_out1,
+   (clk_out1,
     resetn,
     locked,
     clk_in1_p,
     clk_in1_n);
-  input clk_in2_p;
-  input clk_in2_n;
-  input clk_in_sel;
   output clk_out1;
   input resetn;
   output locked;
@@ -34,9 +28,6 @@ module clk_wiz_0
 
   (* DIFF_TERM = 0 *) (* IBUF_LOW_PWR *) wire clk_in1_n;
   (* DIFF_TERM = 0 *) (* IBUF_LOW_PWR *) wire clk_in1_p;
-  (* DIFF_TERM = 0 *) (* IBUF_LOW_PWR *) wire clk_in2_n;
-  (* DIFF_TERM = 0 *) (* IBUF_LOW_PWR *) wire clk_in2_p;
-  wire clk_in_sel;
   wire clk_out1;
   wire locked;
   wire resetn;
@@ -44,26 +35,17 @@ module clk_wiz_0
   clk_wiz_0_clk_wiz inst
        (.clk_in1_n(clk_in1_n),
         .clk_in1_p(clk_in1_p),
-        .clk_in2_n(clk_in2_n),
-        .clk_in2_p(clk_in2_p),
-        .clk_in_sel(clk_in_sel),
         .clk_out1(clk_out1),
         .locked(locked),
         .resetn(resetn));
 endmodule
 
 module clk_wiz_0_clk_wiz
-   (clk_in2_p,
-    clk_in2_n,
-    clk_in_sel,
-    clk_out1,
+   (clk_out1,
     resetn,
     locked,
     clk_in1_p,
     clk_in1_n);
-  input clk_in2_p;
-  input clk_in2_n;
-  input clk_in_sel;
   output clk_out1;
   input resetn;
   output locked;
@@ -74,10 +56,6 @@ module clk_wiz_0_clk_wiz
   wire clk_in1_clk_wiz_0_buf;
   wire clk_in1_n;
   wire clk_in1_p;
-  wire clk_in2_clk_wiz_0;
-  wire clk_in2_n;
-  wire clk_in2_p;
-  wire clk_in_sel;
   wire clk_out1;
   wire clk_out1_clk_wiz_0;
   wire clkfbout_buf_clk_wiz_0;
@@ -121,16 +99,6 @@ module clk_wiz_0_clk_wiz
         .IB(clk_in1_n),
         .O(clk_in1_clk_wiz_0_buf));
   (* BOX_TYPE = "PRIMITIVE" *) 
-  (* CAPACITANCE = "DONT_CARE" *) 
-  (* IBUF_DELAY_VALUE = "0" *) 
-  (* IFD_DELAY_VALUE = "AUTO" *) 
-  IBUFDS #(
-    .IOSTANDARD("DEFAULT")) 
-    clkin2_ibufgds
-       (.I(clk_in2_p),
-        .IB(clk_in2_n),
-        .O(clk_in2_clk_wiz_0));
-  (* BOX_TYPE = "PRIMITIVE" *) 
   BUFG clkout1_buf
        (.I(clk_out1_clk_wiz_0),
         .O(clk_out1));
@@ -141,7 +109,7 @@ module clk_wiz_0_clk_wiz
     .CLKFBOUT_PHASE(0.000000),
     .CLKFBOUT_USE_FINE_PS("FALSE"),
     .CLKIN1_PERIOD(5.000000),
-    .CLKIN2_PERIOD(5.000000),
+    .CLKIN2_PERIOD(0.000000),
     .CLKOUT0_DIVIDE_F(8.000000),
     .CLKOUT0_DUTY_CYCLE(0.500000),
     .CLKOUT0_PHASE(0.000000),
@@ -190,8 +158,8 @@ module clk_wiz_0_clk_wiz
         .CLKFBOUTB(NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED),
         .CLKFBSTOPPED(NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED),
         .CLKIN1(clk_in1_clk_wiz_0),
-        .CLKIN2(clk_in2_clk_wiz_0),
-        .CLKINSEL(clk_in_sel),
+        .CLKIN2(1'b0),
+        .CLKINSEL(1'b1),
         .CLKINSTOPPED(NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED),
         .CLKOUT0(clk_out1_clk_wiz_0),
         .CLKOUT0B(NLW_mmcm_adv_inst_CLKOUT0B_UNCONNECTED),

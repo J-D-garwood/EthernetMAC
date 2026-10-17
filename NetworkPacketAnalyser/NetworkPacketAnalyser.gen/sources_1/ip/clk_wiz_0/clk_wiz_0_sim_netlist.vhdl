@@ -2,7 +2,7 @@
 -- Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2025.2 (win64) Build 6299465 Fri Nov 14 19:35:11 GMT 2025
--- Date        : Thu Oct 15 20:32:59 2026
+-- Date        : Sat Oct 17 12:34:04 2026
 -- Host        : LAPTOP-PW0NGYLL running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               c:/Users/garwo/Dev/NetworkPacketAnalyser/NetworkPacketAnalyser/NetworkPacketAnalyser.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.vhdl
@@ -17,9 +17,6 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity clk_wiz_0_clk_wiz is
   port (
-    clk_in2_p : in STD_LOGIC;
-    clk_in2_n : in STD_LOGIC;
-    clk_in_sel : in STD_LOGIC;
     clk_out1 : out STD_LOGIC;
     resetn : in STD_LOGIC;
     locked : out STD_LOGIC;
@@ -31,7 +28,6 @@ end clk_wiz_0_clk_wiz;
 architecture STRUCTURE of clk_wiz_0_clk_wiz is
   signal clk_in1_clk_wiz_0 : STD_LOGIC;
   signal clk_in1_clk_wiz_0_buf : STD_LOGIC;
-  signal clk_in2_clk_wiz_0 : STD_LOGIC;
   signal clk_out1_clk_wiz_0 : STD_LOGIC;
   signal clkfbout_buf_clk_wiz_0 : STD_LOGIC;
   signal clkfbout_clk_wiz_0 : STD_LOGIC;
@@ -62,10 +58,6 @@ architecture STRUCTURE of clk_wiz_0_clk_wiz is
   attribute IBUF_DELAY_VALUE of clkin1_ibufgds : label is "0";
   attribute IFD_DELAY_VALUE : string;
   attribute IFD_DELAY_VALUE of clkin1_ibufgds : label is "AUTO";
-  attribute BOX_TYPE of clkin2_ibufgds : label is "PRIMITIVE";
-  attribute CAPACITANCE of clkin2_ibufgds : label is "DONT_CARE";
-  attribute IBUF_DELAY_VALUE of clkin2_ibufgds : label is "0";
-  attribute IFD_DELAY_VALUE of clkin2_ibufgds : label is "AUTO";
   attribute BOX_TYPE of clkout1_buf : label is "PRIMITIVE";
   attribute BOX_TYPE of mmcm_adv_inst : label is "PRIMITIVE";
 begin
@@ -88,15 +80,6 @@ clkin1_ibufgds: unisim.vcomponents.IBUFDS
       IB => clk_in1_n,
       O => clk_in1_clk_wiz_0_buf
     );
-clkin2_ibufgds: unisim.vcomponents.IBUFDS
-    generic map(
-      IOSTANDARD => "DEFAULT"
-    )
-        port map (
-      I => clk_in2_p,
-      IB => clk_in2_n,
-      O => clk_in2_clk_wiz_0
-    );
 clkout1_buf: unisim.vcomponents.BUFG
      port map (
       I => clk_out1_clk_wiz_0,
@@ -109,7 +92,7 @@ mmcm_adv_inst: unisim.vcomponents.MMCME2_ADV
       CLKFBOUT_PHASE => 0.000000,
       CLKFBOUT_USE_FINE_PS => false,
       CLKIN1_PERIOD => 5.000000,
-      CLKIN2_PERIOD => 5.000000,
+      CLKIN2_PERIOD => 0.000000,
       CLKOUT0_DIVIDE_F => 8.000000,
       CLKOUT0_DUTY_CYCLE => 0.500000,
       CLKOUT0_PHASE => 0.000000,
@@ -159,8 +142,8 @@ mmcm_adv_inst: unisim.vcomponents.MMCME2_ADV
       CLKFBOUTB => NLW_mmcm_adv_inst_CLKFBOUTB_UNCONNECTED,
       CLKFBSTOPPED => NLW_mmcm_adv_inst_CLKFBSTOPPED_UNCONNECTED,
       CLKIN1 => clk_in1_clk_wiz_0,
-      CLKIN2 => clk_in2_clk_wiz_0,
-      CLKINSEL => clk_in_sel,
+      CLKIN2 => '0',
+      CLKINSEL => '1',
       CLKINSTOPPED => NLW_mmcm_adv_inst_CLKINSTOPPED_UNCONNECTED,
       CLKOUT0 => clk_out1_clk_wiz_0,
       CLKOUT0B => NLW_mmcm_adv_inst_CLKOUT0B_UNCONNECTED,
@@ -203,9 +186,6 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity clk_wiz_0 is
   port (
-    clk_in2_p : in STD_LOGIC;
-    clk_in2_n : in STD_LOGIC;
-    clk_in_sel : in STD_LOGIC;
     clk_out1 : out STD_LOGIC;
     resetn : in STD_LOGIC;
     locked : out STD_LOGIC;
@@ -222,9 +202,6 @@ inst: entity work.clk_wiz_0_clk_wiz
      port map (
       clk_in1_n => clk_in1_n,
       clk_in1_p => clk_in1_p,
-      clk_in2_n => clk_in2_n,
-      clk_in2_p => clk_in2_p,
-      clk_in_sel => clk_in_sel,
       clk_out1 => clk_out1,
       locked => locked,
       resetn => resetn
