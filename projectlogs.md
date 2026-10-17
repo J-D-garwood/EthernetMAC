@@ -161,3 +161,5 @@ PHY_reset.v
 ![alt text](image.png)
 
 ## 17/10/2026
+- Completed auto-negotiation functionality
+- Completed "cut-through parsing" on incoming ethernet frames
