@@ -7,7 +7,8 @@ module MAC (
     output TXC,
     output TX_CTL,
     output [3:0] TXD,
-    output [7:0] data_out
+    input [7:0] data_in,
+    output [7:0] data_out,
     input [1:0] speed_status,
     input duplex,
     input linked

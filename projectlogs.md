@@ -169,3 +169,5 @@ PHY_reset.v
 - Completed incoming frame filtering
 
 ## 20/10/2026
+- Fixed receiving compile errors
+- Began work on transmission side - DDR output - different clocks for different transmission rate modification required.
