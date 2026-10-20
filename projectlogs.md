@@ -155,6 +155,7 @@ PHY_reset.v
 - Main advantage over wireshark is accurate PHY arrival timestamps
 
 ## 15/10/2026
+- debugged BUFG → BUFIO/BUFR timing bug
 - Updated clock speed (Using clocking wizard from vivado) - reviewed fanout signals theory
 - Added Johnson counter to produce MDC
 - Confirmed status register to read once auto-negotiation is complete.
@@ -163,3 +164,8 @@ PHY_reset.v
 ## 17/10/2026
 - Completed auto-negotiation functionality
 - Completed "cut-through parsing" on incoming ethernet frames
+
+## 18/10/2026
+- Completed incoming frame filtering
+
+## 20/10/2026
