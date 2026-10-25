@@ -7,7 +7,7 @@ module transmitter (
     output TXC,
     output TX_CTL,
     output [3:0] TXD,
-    output tx_ready
+    output tx_ready,
     input speed_status
 );
 
@@ -24,7 +24,9 @@ always @(posedge clk) begin
     if (!rst_n) begin
         state <= (1<<IDLE);
         en <= 1'b0;
+        tx_ready <= 1'b0;
     end else begin
+        
     end
 end
 endmodule

@@ -171,3 +171,8 @@ PHY_reset.v
 ## 20/10/2026
 - Fixed receiving compile errors
 - Began work on transmission side - DDR output - different clocks for different transmission rate modification required.
+
+## 26/10/2026
+- Wrote logic to divide a clk by N where N is an odd number - used for PHY RGMII interface
+![alt text](image-1.png)
+
