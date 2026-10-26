@@ -176,3 +176,6 @@ PHY_reset.v
 - Wrote logic to divide a clk by N where N is an odd number - used for PHY RGMII interface
 ![alt text](image-1.png)
 
+## 27/10/2026
+- Streamlined divide by odd N clk. 
+

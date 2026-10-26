@@ -11,20 +11,18 @@ module transmitter (
     input speed_status
 );
 
-reg en;
+wire PHY_clk;
 
-reg [2:0] state;
+divide_clk_by_odd_N #(5) clk_divider (
+    .clk(clk),
+    .rst_n(rst_n),
+    .div(PHY_clk) // 25 MHz clk
+);
 
-localparam idle = 0;
-localparam sending = 0;
-localparam cool_off = 0;
 
-
-always @(posedge clk) begin
+always @(posedge PHY_clk) begin
     if (!rst_n) begin
-        state <= (1<<IDLE);
-        en <= 1'b0;
-        tx_ready <= 1'b0;
+
     end else begin
         
     end

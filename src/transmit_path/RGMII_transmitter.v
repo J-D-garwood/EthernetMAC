@@ -6,6 +6,7 @@
 
 module RGMII_transmitter(
     input clk,
+    input PHY_clk,
     input rst_n,
     input en,
     input [7:0] tx_data,
@@ -57,7 +58,7 @@ for (i = 0; i < 4; i = i + 1) begin: gen_bits
 end
 endgenerate
 
-always @(posedge clk) begin
+always @(posedge PHY_clk) begin
     if (!rst_n) begin
         nibble_pos <= 4'b0000;
         nibble_neg <= 4'b0000;
