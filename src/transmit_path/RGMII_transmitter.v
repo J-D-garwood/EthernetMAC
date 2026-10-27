@@ -5,18 +5,15 @@
 
 
 module RGMII_transmitter(
-    input clk,
-    input PHY_clk,
+    input TXC,
     input rst_n,
     input en,
-    input [7:0] tx_data,
     input speed_status,
-    output TXC,
+    input [7:0] tx_data,
     output [3:0] TXD,
-    output TX_CTL
+    output TX_CTL,
+    output tx_ready
 );
-
-assign TXC = clk;
 
 reg [3:0] nibble_pos;
 reg [3:0] nibble_neg;
@@ -25,13 +22,16 @@ reg en_Q;
 
 reg byte_idx;
 
+assign tx_ready = (speed_status) ? 1'b1 : byte_idx;
+
+
 ODDR #(
    .DDR_CLK_EDGE("SAME_EDGE"), // "OPPOSITE_EDGE" or "SAME_EDGE" 
    .INIT(1'b0),    // Initial value of Q: 1'b0 or 1'b1
    .SRTYPE("SYNC") // Set/Reset type: "SYNC" or "ASYNC" 
 ) ODDR_TX_CTL (
    .Q(TX_CTL),   // 1-bit DDR output
-   .C(clk),   // 1-bit clock input
+   .C(TXC),   // 1-bit clock input
    .CE(1'b1), // 1-bit clock enable input
    .D1(en_Q), // 1-bit data input (positive edge)
    .D2(en_Q), // 1-bit data input (negative edge)
@@ -48,7 +48,7 @@ for (i = 0; i < 4; i = i + 1) begin: gen_bits
       .SRTYPE("SYNC") // Set/Reset type: "SYNC" or "ASYNC" 
    ) ODDR_TXD (
       .Q(TXD[i]),   // 1-bit DDR output
-      .C(clk),   // 1-bit clock input
+      .C(TXC),   // 1-bit clock input
       .CE(1'b1), // 1-bit clock enable input
       .D1(nibble_pos[i]), // 1-bit data input (positive edge)
       .D2(nibble_neg[i]), // 1-bit data input (negative edge)
@@ -58,11 +58,12 @@ for (i = 0; i < 4; i = i + 1) begin: gen_bits
 end
 endgenerate
 
-always @(posedge PHY_clk) begin
+always @(posedge TXC) begin
     if (!rst_n) begin
         nibble_pos <= 4'b0000;
         nibble_neg <= 4'b0000;
         byte_idx <= 0;
+        en_Q <= 0;
     end else begin
         en_Q <= en;
         if (en) begin
