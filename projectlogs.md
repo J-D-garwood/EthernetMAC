@@ -179,3 +179,7 @@ PHY_reset.v
 ## 27/10/2026
 - Streamlined divide by odd N clk. 
 
+## 28/10/2026
+- Completed RGMII transmitter w. tx_ready control signal
+
+
