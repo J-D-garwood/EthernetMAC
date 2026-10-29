@@ -182,4 +182,6 @@ PHY_reset.v
 ## 28/10/2026
 - Completed RGMII transmitter w. tx_ready control signal
 
-
+## 29/10/2026
+- Transmission FSM begun - transition from preamble, SFD to DEST complete
+- Configured control signals for payload byte shifting
