@@ -4,34 +4,42 @@ module transmission_FSM (
     input [7:0] data,
     input speed_status,
     input TXC,
+    input last_byte,
     output TX_CTL,
     output [3:0] TXD,
     output ready
 );
 
 reg [7:0] tx_data;
+
+reg shift_byte; 
+
 reg [31:0] byte_counter;
 
-//reg [31:0] CRC_register;
-//reg feedback;
-//reg [31:0] crc_next;
-////
-////integer i;
-////always @(*) begin
-////    crc_next = CRC_register;
-////    for (i = 0; i<8; i = i + 1) begin
-////        feedback = crc_next[0] ^ data[i];
-////        crc_next = crc_next >> 1;
-////        if (feedback) crc_next = crc_next ^ 32'hEDB88320;
-////    end
-////end
-reg shift_byte; 
+reg [47:0] src_address;
+
+reg [31:0] CRC_register;
+reg feedback;
+reg [31:0] crc_next;
+reg CRC_run;
+reg sending_CRC;
+
+wire en;
+assign en = (valid||sending_CRC);
+
+reg cool_off;
+
+wire frame;
+assign frame = (en||cool_off);
+
+
+wire tx_ready;
 assign ready = tx_ready && shift_byte;
 
 RGMII_transmitter rgmii_tx (
     .TXC(TXC),
     .rst_n(rst_n),
-    .en(valid),
+    .en(en),
     .speed_status(speed_status),
     .tx_data(tx_data),
     .TXD(TXD),
@@ -39,7 +47,18 @@ RGMII_transmitter rgmii_tx (
     .tx_ready(tx_ready)
 );
 
-(* MARK_DEBUG = "TRUE" *) reg [6:0] state;
+
+integer i;
+always @(*) begin
+    crc_next = CRC_register;
+    for (i = 0; i<8; i = i + 1) begin
+        feedback = crc_next[0] ^ tx_data[i];
+        crc_next = crc_next >> 1;
+        if (feedback) crc_next = crc_next ^ 32'hEDB88320;
+    end
+end
+
+(* MARK_DEBUG = "TRUE" *) reg [7:0] state;
 
 localparam IDLE = 0;
 localparam PREAMBLE = 1;
@@ -47,7 +66,8 @@ localparam DESTINATION = 2;
 localparam SOURCE = 3;
 localparam LENGTH = 4;
 localparam DATA = 5;
-localparam WAIT_END = 6;
+localparam CRC = 6;
+localparam INTERPACKET_GAP = 7;
 
 always @(posedge TXC) begin
     if (!rst_n) begin
@@ -55,45 +75,112 @@ always @(posedge TXC) begin
         byte_counter <= 32'h0000_0000;
         state <= (1 << IDLE);
         shift_byte <= 1'b0;
+        src_address <= 48'h2EFC32BA7C99;
+        CRC_register <= 32'hFFFF_FFFF;
+        cool_off <= 1'b0;
+        CRC_run <= 1'b0;
+        sending_CRC <= 1'b0;
     end else begin
-        if (valid) begin
+        if (frame) begin
             case (state)
-                (1 << IDLE): begin
-                    state <= (1 << PREAMBLE);
+            (1 << IDLE): begin
+                if (tx_ready) state <= (1 << PREAMBLE);
+            end
+            (1 << PREAMBLE): begin
+                if (byte_counter == 7 && tx_ready) begin
+                    state <= (1 << DESTINATION);
+                    tx_data <= 8'hD5;
+                    byte_counter <= 32'h0000_0000;
+                    shift_byte <= 1'b1;
+                end else if (tx_ready) begin
+                    byte_counter <= byte_counter + 1;
+                    tx_data <= 8'h55;
                 end
-                (1 << PREAMBLE): begin
-                    if (byte_counter == 7 && tx_ready) begin
-                        state <= (1 << DESTINATION);
-                        tx_data <= 8'hD5;
-                        byte_counter <= 32'h0000_0000;
-                        shift_byte <= 1'b1;
-                    end else if (tx_ready) begin
-                        byte_counter <= byte_counter + 1;
-                        tx_data <= 8'h55;
-                    end
+            end
+            (1 << DESTINATION): begin
+                 if (byte_counter == 5 && tx_ready) begin
+                    state <= (1 << SOURCE);
+                    tx_data <= data;
+                    shift_byte <= 1'b0;
+                    byte_counter <= 32'h0000_0000;
+                end else if (tx_ready) begin
+                    byte_counter <= byte_counter + 1;
+                    tx_data <= data;
+                    CRC_run <= 1'b1;
                 end
-                (1 << DESTINATION): begin
-                     if (byte_counter == 5 && tx_ready) begin
-                        state <= (1 << SOURCE);
-                        tx_data <= data;
-                        shift_byte <= 1'b0;
-                        byte_counter <= 32'h0000_0000;
-                    end else if (tx_ready) begin
-                        byte_counter <= byte_counter + 1;
-                        tx_data <= data;
-                    end
+            end
+            (1 << SOURCE): begin
+                if (byte_counter == 5 && tx_ready) begin
+                    state <= (1 << LENGTH);
+                    tx_data <= src_address[47:40];
+                    shift_byte <= 1'b1;
+                    byte_counter <= 32'h0000_0000;
+                end else if (tx_ready) begin
+                    byte_counter <= byte_counter + 1;
+                    src_address <= {src_address[39:0], 8'b0000_0000};
+                    tx_data <= src_address[47:40];
                 end
-                (1 << SOURCE): begin
+            end
+            (1 << LENGTH): begin
+                if (byte_counter == 1 && tx_ready) begin
+                    state <= (1 << DATA);
+                    tx_data <= data;
+                    byte_counter <= 32'h0000_0000;
+                end else if (tx_ready) begin
+                    byte_counter <= byte_counter + 1;
+                    tx_data <= data;
                 end
-                (1 << LENGTH): begin
+            end
+            (1 << DATA): begin
+                if (last_byte && tx_ready) begin
+                    state <= (1 << CRC);
+                    tx_data <= data;
+                    shift_byte <= 1'b0;
+                    sending_CRC <= 1'b1;
+                end else if (tx_ready) begin
+                    tx_data <= data;
                 end
-                (1 << DATA): begin
+            end
+            (1 << CRC): begin
+                if (byte_counter == 3 && tx_ready) begin
+                    state <= (1 << INTERPACKET_GAP);
+                    tx_data <= ~(CRC_register[15:8]);
+                    byte_counter <= 32'h0000_0000;
+                    cool_off <= 1'b1;
+                end else if (tx_ready) begin
+                    byte_counter <= byte_counter + 1;
+                    if (!CRC_run) begin 
+                        CRC_register <= {8'hFF, CRC_register[31:8]};
+                    end 
+                    tx_data <= (CRC_run) ? ~(crc_next[7:0]) : ~(CRC_register[15:8]);
+                    CRC_run <= 1'b0;
                 end
-                (1 << CRC): begin
+            end
+            (1 << INTERPACKET_GAP): begin
+                if ((speed_status&&byte_counter == 12)||(!speed_status&&byte_counter == 24)) begin
+                    state <= (1 << IDLE);
+                    cool_off <= 1'b0;
+                    byte_counter <= 32'h0000_0000;
+                    CRC_register <= 32'hFFFF_FFFF;
+                    shift_byte <= 1'b0;
+                    src_address <= 48'h2EFC32BA7C99;
+                    CRC_run <= 1'b0;
+                end else begin
+                    sending_CRC <= 1'b0;;
+                    byte_counter <= byte_counter + 1;
                 end
+            end
             endcase
         end else begin
-            // stuff
+            state <= (1 << IDLE);
+            cool_off <= 1'b0;
+            byte_counter <= 32'h0000_0000;
+            sending_CRC <= 1'b0;
+            CRC_register <= 32'hFFFF_FFFF;
+            shift_byte <= 1'b0;
+            src_address <= 48'h2EFC32BA7C99;
+            CRC_run <= 1'b0;
+            //tings wasteman
         end
     end
 end
@@ -101,3 +188,160 @@ end
 
 
 endmodule
+//reg [7:0] tx_data;
+//reg [31:0] byte_counter;
+//
+//reg [31:0] CRC_register;
+//reg feedback;
+//reg [31:0] crc_next;
+//reg CRC_run;
+//reg sending_CRC;
+//
+//integer i;
+//always @(*) begin
+//    crc_next = CRC_register;
+//    for (i = 0; i<8; i = i + 1) begin
+//        feedback = crc_next[0] ^ tx_data[i];
+//        crc_next = crc_next >> 1;
+//        if (feedback) crc_next = crc_next ^ 32'hEDB88320;
+//    end
+//end
+//
+//reg [47:0] src_address;
+//reg shift_byte; 
+//assign ready = tx_ready && shift_byte;
+//
+//wire en;
+//assign en = ((valid || sending_CRC)&& state!=(1 << INTERPACKET_GAP));
+//
+//RGMII_transmitter rgmii_tx (
+//    .TXC(TXC),
+//    .rst_n(rst_n),
+//    .en(en),
+//    .speed_status(speed_status),
+//    .tx_data(tx_data),
+//    .TXD(TXD),
+//    .TX_CTL(TX_CTL),
+//    .tx_ready(tx_ready)
+//);
+//
+//(* MARK_DEBUG = "TRUE" *) reg [7:0] state;
+//
+//localparam IDLE = 0;
+//localparam PREAMBLE = 1;
+//localparam DESTINATION = 2;
+//localparam SOURCE = 3;
+//localparam LENGTH = 4;
+//localparam DATA = 5;
+//localparam CRC = 6;
+//localparam INTERPACKET_GAP = 7;
+//
+//always @(posedge TXC) begin
+//    if (!rst_n) begin
+//        tx_data <= 8'b0000_0000;
+//        byte_counter <= 32'h0000_0000;
+//        state <= (1 << IDLE);
+//        shift_byte <= 1'b0;
+//        src_address <= 48'h2EFC32BA7C99;
+//        CRC_register <= 32'hFFFF_FFFF;
+//        CRC_run <= 1'b0;
+//        sending_CRC <= 1'b0;
+//    end else begin
+//        if (en||(state==(1 << INTERPACKET_GAP))) begin
+//            if (tx_ready && CRC_run) begin
+//                CRC_register <= crc_next;
+//            end
+//
+//            case (state)
+//                (1 << IDLE): begin
+//                    
+//                end
+//                (1 << PREAMBLE): begin
+//                    if (byte_counter == 7 && tx_ready) begin
+//                        state <= (1 << DESTINATION);
+//                        tx_data <= 8'hD5;
+//                        byte_counter <= 32'h0000_0000;
+//                        shift_byte <= 1'b1;
+//                    end else if (tx_ready) begin
+//                        byte_counter <= byte_counter + 1;
+//                        tx_data <= 8'h55;
+//                    end
+//                end
+//                (1 << DESTINATION): begin
+//                     if (byte_counter == 5 && tx_ready) begin
+//                        state <= (1 << SOURCE);
+//                        tx_data <= data;
+//                        shift_byte <= 1'b0;
+//                        byte_counter <= 32'h0000_0000;
+//                    end else if (tx_ready) begin
+//                        byte_counter <= byte_counter + 1;
+//                        tx_data <= data;
+//                        CRC_run <= 1'b1;
+//                    end
+//                end
+//                (1 << SOURCE): begin
+//                    if (byte_counter == 5 && tx_ready) begin
+//                        state <= (1 << LENGTH);
+//                        tx_data <= src_address[47:40];
+//                        shift_byte <= 1'b1;
+//                        byte_counter <= 32'h0000_0000;
+//                    end else if (tx_ready) begin
+//                        byte_counter <= byte_counter + 1;
+//                        src_address <= {src_address[39:0], 8'b0000_0000};
+//                        tx_data <= src_address[47:40];
+//                    end
+//                end
+//                (1 << LENGTH): begin
+                        if (byte_counter == 1 && tx_ready) begin
+                            state <= (1 << DATA);
+                            tx_data <= data;
+                            byte_counter <= 32'h0000_0000;
+                        end else if (tx_ready) begin
+                            byte_counter <= byte_counter + 1;
+                            tx_data <= data;
+                        end
+//                end
+//                (1 << DATA): begin
+//                    if (last_byte && tx_ready) begin
+//                        state <= (1 << CRC);
+//                        tx_data <= data;
+//                        shift_byte <= 1'b0;
+//                        sending_CRC <= 1'b1;
+//                    end else if (tx_ready) begin
+//                        tx_data <= data;
+//                    end
+//                end
+//                (1 << CRC): begin
+//                    if (byte_counter == 3 && tx_ready) begin
+//                        state <= (1 << INTERPACKET_GAP);
+//                        tx_data <= ~(CRC_register[15:8]);
+//                        byte_counter <= 32'h0000_0000;
+//                    end else if (tx_ready) begin
+//                        byte_counter <= byte_counter + 1;
+//                        if (!CRC_run) begin 
+//                            CRC_register <= {8'hFF, CRC_register[31:8]};
+//                        end 
+//                        tx_data <= (CRC_run) ? ~(crc_next[7:0]) : ~(CRC_register[15:8]);
+//                        CRC_run <= 1'b0;
+//                    end
+//                end
+//                (1 << INTERPACKET_GAP): begin
+//                    if (byte_counter == 12 && tx_ready) begin
+//                        state <= (1 << IDLE);
+//                    end else if (tx_ready) begin
+//                        byte_counter <= byte_counter + 1;
+//                        sending_CRC <= 1'b0;
+//                    end
+//                end
+//            endcase
+//        end else begin
+//            sending_CRC <= 1'b0;
+//            CRC_register <= 32'hFFFF_FFFF;
+//        end
+//    end
+//end
+//
+//
+//
+//endmodule
+//
