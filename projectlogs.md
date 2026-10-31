@@ -185,3 +185,10 @@ PHY_reset.v
 ## 29/10/2026
 - Transmission FSM begun - transition from preamble, SFD to DEST complete
 - Configured control signals for payload byte shifting
+
+## 31/10/2026
+- Completed transmission FSM and CRC appending logic
+- Created demo frame feeder module w. ARP request
+
+## NEXT STEPS
+- ADD TXC CLOCK GEN LOGIC FOR EACH SPEED SETTING TO MAC.v

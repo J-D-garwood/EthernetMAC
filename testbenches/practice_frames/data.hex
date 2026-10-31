@@ -1,0 +1,47 @@
+// Destination MAC (broadcast)
+FF
+FF
+FF
+FF
+FF
+FF
+// EtherType (ARP)
+08
+06
+// Hardware type: Ethernet
+00
+01
+// Protocol type: IPv4
+08
+00
+// Hardware address length
+06
+// Protocol address length
+04
+// Operation: request
+00
+01
+// Sender MAC
+2E
+FC
+32
+BA
+7C
+99
+// Sender IP: 192.168.1.10
+C0
+A8
+01
+0A
+// Target MAC: unknown
+00
+00
+00
+00
+00
+00
+// Target IP: 192.168.1.1
+C0
+A8
+01
+01

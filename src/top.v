@@ -34,6 +34,7 @@ module top #(
 
     wire rst_n_ready;
     assign rst_n_ready = (sync_rst_n && PHY_init_complete);
+    wire [7:0] received_byte;
     
 // CHECK THE CLOCK WIZARD SETTINGS IF HAVING ISSUES
     clk_wiz_0 clk_wiz
@@ -75,6 +76,20 @@ module top #(
     .linked(linked)
     );
 
+    wire ready;
+    wire [7:0] data;
+    wire valid;
+    wire last_byte;
+
+    simple_frame_feeder frame_feed (
+    .TXC(TXC),
+    .rst_n(sync_rst_n),
+    .ready(ready),
+    .data(data),
+    .valid(valid),
+    .last_byte(last_byte)
+    );
+
     MAC mac(
     .clk(clk),
     .rst_n(sync_rst_n),
@@ -84,10 +99,15 @@ module top #(
     .TXC(TXC),
     .TX_CTL(TX_CTL),
     .TXD(TXD),
+    .data_in(data),
+    .valid_tx(valid),
+    .last_byte(last_byte),
+    .data_out(received_byte),
     .speed_status(speed_status),
     .duplex(duplex),
-    .linked(linked)
-    )
+    .linked(linked),
+    .ready(ready)
+    );
 
 
 
