@@ -36,11 +36,13 @@ module top #(
     assign rst_n_ready = (sync_rst_n && PHY_init_complete);
     wire [7:0] received_byte;
     
+    wire two5Meg;
 // CHECK THE CLOCK WIZARD SETTINGS IF HAVING ISSUES
     clk_wiz_0 clk_wiz
      (
       // Clock out ports
       .clk_out1(clk),     // output clk_out1
+      .clk_out2(two5Meg),
       // Status and control signals
       .resetn(rst_n), // input resetn
       .locked(locked),       // output locked
@@ -49,7 +51,7 @@ module top #(
       .clk_in1_n(sys_clk_n)    // input clk_in1_n
     );
 
-    PHY_INIT #() phy_init(
+    PHY_INIT #(CLK_HZ) phy_init(
         .clk(clk),
         .rst_n(sync_rst_n),
         .PHY_rst_n(PHY_rst_n),
@@ -92,6 +94,7 @@ module top #(
 
     MAC mac(
     .clk(clk),
+    .two5Meg(two5Meg),
     .rst_n(sync_rst_n),
     .RXC(RXC),
     .RX_CTL(RX_CTL),

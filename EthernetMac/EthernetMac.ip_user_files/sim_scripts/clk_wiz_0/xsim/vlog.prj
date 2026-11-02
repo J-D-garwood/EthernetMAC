@@ -1,6 +1,6 @@
 verilog xil_defaultlib -i "../../../../../../../../../AMDDesignTools/2025.2/Vivado/data/rsb/busdef" --include "../../../ipstatic" \
-"../../../../NetworkPacketAnalyser.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" \
-"../../../../NetworkPacketAnalyser.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v" \
+"../../../../EthernetMac.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" \
+"../../../../EthernetMac.gen/sources_1/ip/clk_wiz_0/clk_wiz_0.v" \
 
 verilog xil_defaultlib "glbl.v"
 

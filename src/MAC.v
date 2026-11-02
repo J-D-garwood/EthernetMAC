@@ -2,6 +2,7 @@
 
 module MAC (
     input clk,
+    input two5Meg,
     input rst_n,
     input RXC,
     input RX_CTL,
@@ -72,6 +73,30 @@ frame_filter filter (
     .receiving_payload(receiving_payload),
     .new_byte(new_byte)
 );
+
+wire twopoint5;
+wire below100;
+
+divide_clk_by_even_N #() div_by_10 (
+    .clk(two5Meg),
+    .rst_n(rst_n),
+    .div(twopoint5)
+);
+
+
+   BUFGMUX #() BUFGMUX_inst_a (
+      .O(below100),   // 1-bit output: Clock output
+      .I0(twopoint5), // 1-bit input: Clock input (S=0)
+      .I1(two5Meg), // 1-bit input: Clock input (S=1)
+      .S(speed_status[0])    // 1-bit input: Clock select
+   );
+
+      BUFGMUX #() BUFGMUX_inst_b (
+      .O(TXC),   // 1-bit output: Clock output
+      .I0(below100), // 1-bit input: Clock input (S=0)
+      .I1(clk), // 1-bit input: Clock input (S=1)
+      .S(speed_status[1])    // 1-bit input: Clock select
+   );
 
 transmission_FSM tx (
     .rst_n(rst_n),
