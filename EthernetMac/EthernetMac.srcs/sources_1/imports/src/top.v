@@ -34,12 +34,15 @@ module top #(
 
     wire rst_n_ready;
     assign rst_n_ready = (sync_rst_n && PHY_init_complete);
+    wire [7:0] received_byte;
     
+    wire two5Meg;
 // CHECK THE CLOCK WIZARD SETTINGS IF HAVING ISSUES
     clk_wiz_0 clk_wiz
      (
       // Clock out ports
       .clk_out1(clk),     // output clk_out1
+      .clk_out2(two5Meg),
       // Status and control signals
       .resetn(rst_n), // input resetn
       .locked(locked),       // output locked
@@ -48,7 +51,7 @@ module top #(
       .clk_in1_n(sys_clk_n)    // input clk_in1_n
     );
 
-    PHY_INIT #() phy_init(
+    PHY_INIT #(CLK_HZ) phy_init(
         .clk(clk),
         .rst_n(sync_rst_n),
         .PHY_rst_n(PHY_rst_n),
@@ -75,8 +78,23 @@ module top #(
     .linked(linked)
     );
 
+    wire ready;
+    wire [7:0] data;
+    wire valid;
+    wire last_byte;
+
+    simple_frame_feeder frame_feed (
+    .TXC(TXC),
+    .rst_n(sync_rst_n),
+    .ready(ready),
+    .data(data),
+    .valid(valid),
+    .last_byte(last_byte)
+    );
+
     MAC mac(
     .clk(clk),
+    .two5Meg(two5Meg),
     .rst_n(sync_rst_n),
     .RXC(RXC),
     .RX_CTL(RX_CTL),
@@ -84,8 +102,16 @@ module top #(
     .TXC(TXC),
     .TX_CTL(TX_CTL),
     .TXD(TXD),
+    .data_in(data),
+    .valid_tx(valid),
+    .last_byte(last_byte),
+    .data_out(received_byte),
     .speed_status(speed_status),
     .duplex(duplex),
-    .linked(linked)
+    .linked(linked),
+    .ready(ready)
     );
+
+
+
 endmodule

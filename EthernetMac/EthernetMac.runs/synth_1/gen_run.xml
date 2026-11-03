@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35tfgg484-2" LaunchTime="1792234684" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/top.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7a35tfgg484-2" LaunchTime="1793690739" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/top.dcp">
+  <File Type="PA-TCL" Name="top.tcl"/>
   <File Type="REPORTS-TCL" Name="top_reports.tcl"/>
+  <File Type="RDS-RDS" Name="top.vds"/>
+  <File Type="RDS-PROPCONSTRS" Name="top_drc_synth.rpt"/>
   <File Type="RDS-UTIL" Name="top_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="top_utilization_synth.pb"/>
-  <File Type="PA-TCL" Name="top.tcl"/>
-  <File Type="RDS-RDS" Name="top.vds"/>
   <File Type="RDS-DCP" Name="top.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="top_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="top_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/imports/practice_frames/data.hex">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../testbenches/practice_frames/data.hex"/>
+        <Attr Name="ImportTime" Val="1793425424"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/imports/src/async_FIFO/FIFO_byte.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../src/async_FIFO/FIFO_byte.v"/>
@@ -29,7 +38,7 @@
     <File Path="$PSRCDIR/sources_1/imports/src/MAC.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../src/MAC.v"/>
-        <Attr Name="ImportTime" Val="1792233459"/>
+        <Attr Name="ImportTime" Val="1793611111"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -98,6 +107,33 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/imports/src/transmit_path/RGMII_transmitter.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../src/transmit_path/RGMII_transmitter.v"/>
+        <Attr Name="ImportTime" Val="1793134240"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/src/helper_modules/divide_clk_by_even_N.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../src/helper_modules/divide_clk_by_even_N.v"/>
+        <Attr Name="ImportTime" Val="1793610219"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/src/processing/frame_filter.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../src/processing/frame_filter.v"/>
+        <Attr Name="ImportTime" Val="1792302060"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/imports/src/processing/frame_parser.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../src/processing/frame_parser.v"/>
@@ -125,10 +161,28 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
+    <File Path="$PSRCDIR/sources_1/imports/src/helper_modules/simple_frame_feeder.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../src/helper_modules/simple_frame_feeder.v"/>
+        <Attr Name="ImportTime" Val="1793426300"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/imports/src/helper_modules/synchroniser.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../src/helper_modules/synchroniser.v"/>
         <Attr Name="ImportTime" Val="1791086613"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/imports/src/transmit_path/transmission_FSM.v">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../src/transmit_path/transmission_FSM.v"/>
+        <Attr Name="ImportTime" Val="1793427296"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -155,7 +209,7 @@
     <File Path="$PSRCDIR/sources_1/imports/src/top.v">
       <FileInfo>
         <Attr Name="ImportPath" Val="$PPRDIR/../src/top.v"/>
-        <Attr Name="ImportTime" Val="1792199763"/>
+        <Attr Name="ImportTime" Val="1793689848"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>

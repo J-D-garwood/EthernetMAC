@@ -84,10 +84,15 @@ read_verilog -library xil_defaultlib {
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/PHY_INIT.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/Receiver/RGMII_receiver.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/Receiver/RGMII_receiver_CDC.v
+  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/transmit_path/RGMII_transmitter.v
+  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/helper_modules/divide_clk_by_even_N.v
+  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/processing/frame_filter.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/processing/frame_parser.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/async_FIFO/gray_to_bin.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/async_FIFO/r_ptr_handler.v
+  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/helper_modules/simple_frame_feeder.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/helper_modules/synchroniser.v
+  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/transmit_path/transmission_FSM.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/helper_modules/tristate.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/async_FIFO/w_ptr_handler.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/top.v
