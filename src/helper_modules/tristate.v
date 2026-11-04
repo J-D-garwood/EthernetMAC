@@ -1,3 +1,4 @@
+// MDIO is bidirectional - drive pin when drive = 1, else high-z
 module tristate(
     input drive,
     input transmit,

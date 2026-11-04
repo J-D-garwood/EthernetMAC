@@ -1,3 +1,4 @@
+// toggles div every N/2 clks -> clk/N, 50% duty
 module divide_clk_by_even_N #(
     parameter N = 10
 )(

@@ -12,7 +12,7 @@ module RGMII_receiver_CDC (
 wire [7:0] data_out; 
 reg [7:0] data_q;
 
-wire RXC_rst_n;
+(* MARK_DEBUG = "TRUE" *) wire RXC_rst_n;
 
 wire DV;
 reg DV_q;
@@ -20,10 +20,10 @@ reg DV_q;
 wire ER;
 wire RXC_b;
 wire valid_byte;
-reg valid_byte_q;
+(* MARK_DEBUG = "TRUE" *) reg valid_byte_q;
 
 wire full; //FIFO full
-wire empty; //FIFO empty
+(* MARK_DEBUG = "TRUE" *) wire empty; //FIFO empty
 wire r_en;
 assign r_en = !(empty);
 

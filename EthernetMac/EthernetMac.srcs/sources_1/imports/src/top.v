@@ -37,18 +37,29 @@ module top #(
     wire [7:0] received_byte;
     
     wire two5Meg;
+    wire tx_clk;
+    wire tx_rst_n;
 // CHECK THE CLOCK WIZARD SETTINGS IF HAVING ISSUES
+
+    wire clk200;
     clk_wiz_0 clk_wiz
      (
       // Clock out ports
       .clk_out1(clk),     // output clk_out1
       .clk_out2(two5Meg),
+      .clk_out3(clk200),
       // Status and control signals
       .resetn(rst_n), // input resetn
       .locked(locked),       // output locked
      // Clock in ports
       .clk_in1_p(sys_clk_p),    // input clk_in1_p
       .clk_in1_n(sys_clk_n)    // input clk_in1_n
+    );
+    (* MARK_DEBUG = "TRUE" *) wire RDY;
+    IDELAYCTRL IDELAYCTRL_inst (
+    .RDY(RDY),          // not used
+    .REFCLK(clk200),
+    .RST(!locked)    // active high
     );
 
     PHY_INIT #(CLK_HZ) phy_init(
@@ -84,8 +95,8 @@ module top #(
     wire last_byte;
 
     simple_frame_feeder frame_feed (
-    .TXC(TXC),
-    .rst_n(sync_rst_n),
+    .TXC(tx_clk),
+    .rst_n(tx_rst_n),
     .ready(ready),
     .data(data),
     .valid(valid),
@@ -109,7 +120,9 @@ module top #(
     .speed_status(speed_status),
     .duplex(duplex),
     .linked(linked),
-    .ready(ready)
+    .ready(ready),
+    .tx_clk(tx_clk),
+    .tx_rst_n(tx_rst_n)
     );
 
 

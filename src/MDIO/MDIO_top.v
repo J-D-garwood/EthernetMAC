@@ -45,6 +45,7 @@ MDIO_bottom #() mdio(
 	.received(received)
 );
 
+// every second: write reg 31 = 0x0A43 (page select), then read reg 26 (PHY status)
 always @(posedge clk) begin
     if (!rst_n) begin
         init <= 1'b0;
@@ -72,6 +73,7 @@ always @(posedge clk) begin
                 if (done) begin 
                     queued_state <= transmission_1;
                     transmitting <= page_select;
+                    // [5:4] speed, [3] duplex, [2] link
                     link_status <= received[5:2]; 
                 end
             end

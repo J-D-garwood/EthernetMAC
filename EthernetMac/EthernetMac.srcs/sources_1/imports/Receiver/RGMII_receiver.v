@@ -5,10 +5,10 @@ module RGMII_receiver(
     input RX_CTL,
     input speed_status,
     output [7:0] data_out,
-    output DV,
+    (* MARK_DEBUG = "TRUE" *) output DV,
     output ER,
     output RXC_b,
-    output reg valid_byte
+    (* MARK_DEBUG = "TRUE" *) output reg valid_byte
 );
 
 wire RXC_c;
@@ -23,6 +23,28 @@ wire [3:0] nibble_neg;
 reg [7:0] data;
 
 reg full_byte;
+
+localparam RX_DELAY_TAPS = 12;
+
+wire       RX_CTL_dly;
+wire [3:0] RXD_dly;
+
+IDELAYE2 #(
+    .IDELAY_TYPE("FIXED"),
+    .IDELAY_VALUE(RX_DELAY_TAPS),
+    .DELAY_SRC("IDATAIN"),
+    .HIGH_PERFORMANCE_MODE("TRUE"),
+    .REFCLK_FREQUENCY(200.0),
+    .SIGNAL_PATTERN("DATA"),
+    .CINVCTRL_SEL("FALSE"),
+    .PIPE_SEL("FALSE")
+) IDELAY_RX_CTL (
+    .IDATAIN(RX_CTL),
+    .DATAOUT(RX_CTL_dly),
+    .C(1'b0), .CE(1'b0), .INC(1'b0), .LD(1'b0), .LDPIPEEN(1'b0),
+    .CINVCTRL(1'b0), .CNTVALUEIN(5'd0), .CNTVALUEOUT(),
+    .DATAIN(1'b0), .REGRST(1'b0)
+);
 
 assign data_out = data;
    // BUFIO and BUFR: Clock Buffers
@@ -56,7 +78,7 @@ assign data_out = data;
       .Q2(RXC_neg), // 1-bit output for negative edge of clock
       .C(RXC_c),   // 1-bit clock input
       .CE(1'b1), // 1-bit clock enable input
-      .D(RX_CTL),   // 1-bit DDR data input
+      .D(RX_CTL_dly),   // 1-bit DDR data input
       .R(1'b0),   // 1-bit reset
       .S(1'b0)    // 1-bit set
    );
@@ -64,6 +86,23 @@ assign data_out = data;
 genvar i;
 generate 
     for (i = 0; i<4; i = i + 1) begin: gen_bits
+         IDELAYE2 #(
+            .IDELAY_TYPE("FIXED"),
+            .IDELAY_VALUE(RX_DELAY_TAPS),
+            .DELAY_SRC("IDATAIN"),
+            .HIGH_PERFORMANCE_MODE("TRUE"),
+            .REFCLK_FREQUENCY(200.0),
+            .SIGNAL_PATTERN("DATA"),
+            .CINVCTRL_SEL("FALSE"),
+            .PIPE_SEL("FALSE")
+        ) IDELAY_RXD (
+            .IDATAIN(RXD[i]),
+            .DATAOUT(RXD_dly[i]),
+            .C(1'b0), .CE(1'b0), .INC(1'b0), .LD(1'b0), .LDPIPEEN(1'b0),
+            .CINVCTRL(1'b0), .CNTVALUEIN(5'd0), .CNTVALUEOUT(),
+            .DATAIN(1'b0), .REGRST(1'b0)
+        );
+
         IDDR #(
       .DDR_CLK_EDGE("SAME_EDGE_PIPELINED"), // "OPPOSITE_EDGE", "SAME_EDGE" 
                                       //    or "SAME_EDGE_PIPELINED" 
@@ -75,7 +114,7 @@ generate
       .Q2(nibble_neg[i]), // 1-bit output for negative edge of clock
       .C(RXC_c),   // 1-bit clock input
       .CE(1'b1), // 1-bit clock enable input
-      .D(RXD[i]),   // 1-bit DDR data input
+      .D(RXD_dly[i]),   // 1-bit DDR data input
       .R(1'b0),   // 1-bit reset
       .S(1'b0)    // 1-bit set
         );

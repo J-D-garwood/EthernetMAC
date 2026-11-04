@@ -1,3 +1,4 @@
+// pointers have an extra MSB so full and empty can be told apart
 module w_ptr_handler #(
     parameter addr_bits = 4 //16 mem addresses
 )(
@@ -29,6 +30,7 @@ always @(posedge wclk) begin
         g_wptr <= 0;
     end else begin
         internal_wptr <= W_next;
+        // full when write is a whole lap ahead of read
         full <= (W_next == internal_rptr + {1'b1, {(addr_bits){1'b0}}});
         g_wptr[addr_bits] <= internal_wptr[addr_bits];
         g_wptr[(addr_bits-1):0] <= internal_wptr[addr_bits:1]^internal_wptr[(addr_bits-1):0];

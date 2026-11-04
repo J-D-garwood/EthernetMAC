@@ -1,3 +1,4 @@
+// holds the PHY in reset for RESET_MS, then waits RESET_MS again before init_complete
 module PHY_INIT #(
     parameter CLK_HZ = 25000000, // Default reset, assert of 20ms
     parameter RESET_MS = 20

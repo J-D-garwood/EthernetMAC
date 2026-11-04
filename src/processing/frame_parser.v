@@ -1,3 +1,4 @@
+// waits for SFD, grabs DEST, SRC and LEN, CRC checks the whole frame
 module frame_parser(
     input clk,
     input rst_n,
@@ -140,6 +141,7 @@ always @(posedge clk) begin
                     if (byte_counter >1503) begin
                         bad_frame <= 1'b1;
                         state <= (end_byte) ? (1 << IDLE) : (1 << WAIT_END);
+                    // DEBB20E3 = CRC residue for a good frame, > 48 bytes = min frame size
                     end else if (end_byte && crc_next == 32'hDEBB20E3 && byte_counter > 48) begin
                         good_frame <= 1'b1;
                         state <= (1 << IDLE);

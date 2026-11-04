@@ -56,7 +56,10 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param tcl.collectionResultDisplayLimit 0
 set_param general.usePosixSpawnForFork 1
+set_param chipscope.maxJobs 4
+set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35tfgg484-2
 
@@ -73,6 +76,7 @@ set_property ip_output_repo c:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetM
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
+read_mem C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/practice_frames/data.mem
 read_verilog -library xil_defaultlib {
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/async_FIFO/FIFO_byte.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/async_FIFO/FIFO_memory.v
@@ -82,8 +86,8 @@ read_verilog -library xil_defaultlib {
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/MDIO/MDIO_bottom.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/MDIO/MDIO_top.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/PHY_INIT.v
-  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/Receiver/RGMII_receiver.v
-  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/Receiver/RGMII_receiver_CDC.v
+  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/Receiver/RGMII_receiver.v
+  C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/Receiver/RGMII_receiver_CDC.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/transmit_path/RGMII_transmitter.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/helper_modules/divide_clk_by_even_N.v
   C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/sources_1/imports/src/processing/frame_filter.v
@@ -111,8 +115,8 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/constrs_1/imports/constraints/constraints_v3.xdc
-set_property used_in_implementation false [get_files C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/constrs_1/imports/constraints/constraints_v3.xdc]
+read_xdc C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/constrs_1/imports/constraints/constraints_basic.xdc
+set_property used_in_implementation false [get_files C:/Users/garwo/Dev/EthernetMAC/EthernetMac/EthernetMac.srcs/constrs_1/imports/constraints/constraints_basic.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 

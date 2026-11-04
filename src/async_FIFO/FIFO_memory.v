@@ -1,5 +1,6 @@
 
 
+// valid goes high the clk after a read
 module FIFO_memory #(
     parameter width = 4,
     parameter addr_bits = 4 //16 mem addresses

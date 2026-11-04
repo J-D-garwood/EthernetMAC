@@ -1,4 +1,4 @@
-// ADD THE 125, 25, 2.5 MHz clks for the different speeds
+// MAC - RX: RGMII -> FIFO -> parser -> filter. TX: frame FSM -> RGMII
 
 module MAC (
     input clk,
@@ -17,7 +17,9 @@ module MAC (
     input [1:0] speed_status,
     input duplex,
     input linked,
-    output ready
+    output ready,
+    output tx_clk,    // Internal transmit clock, muxed for the link speed
+    output tx_rst_n   // Reset synchronised to tx_clk
 );
 
 (* MARK_DEBUG = "TRUE" *) wire [8:0] data;
@@ -77,6 +79,7 @@ frame_filter filter (
 wire twopoint5;
 wire below100;
 
+// 25 MHz / 10 = 2.5 MHz for 10 Mbps
 divide_clk_by_even_N #() div_by_10 (
     .clk(two5Meg),
     .rst_n(rst_n),
@@ -84,6 +87,7 @@ divide_clk_by_even_N #() div_by_10 (
 );
 
 
+   // picks 2.5 MHz (10 Mbps) or 25 MHz (100 Mbps)
    BUFGMUX #() BUFGMUX_inst_a (
       .O(below100),   // 1-bit output: Clock output
       .I0(twopoint5), // 1-bit input: Clock input (S=0)
@@ -91,19 +95,53 @@ divide_clk_by_even_N #() div_by_10 (
       .S(speed_status[0])    // 1-bit input: Clock select
    );
 
+      // picks below100 or 125 MHz (1G) -> tx_clk
       BUFGMUX #() BUFGMUX_inst_b (
-      .O(TXC),   // 1-bit output: Clock output
+      .O(tx_clk),   // 1-bit output: Clock output
       .I0(below100), // 1-bit input: Clock input (S=0)
       .I1(clk), // 1-bit input: Clock input (S=1)
       .S(speed_status[1])    // 1-bit input: Clock select
    );
 
-transmission_FSM tx (
+// Forward the clock through an ODDR so TXC leaves the FPGA the same way as
+// TXD and TX_CTL. This keeps the clock edge-aligned with the data.
+ODDR #(
+   .DDR_CLK_EDGE("SAME_EDGE"),
+   .INIT(1'b0),
+   .SRTYPE("SYNC")
+) ODDR_TXC (
+   .Q(TXC),
+   .C(tx_clk),
+   .CE(1'b1),
+   .D1(1'b1),
+   .D2(1'b0),
+   .R(1'b0),
+   .S(1'b0)
+);
+
+// rst_n and speed_status belong to clk, so synchronise them into tx_clk.
+wire speed_status_tx_cd;
+
+synchroniser #(1) sync_rst_TX(
+    .clk(tx_clk),
     .rst_n(rst_n),
+    .async_in(1'b1),
+    .sync_out(tx_rst_n)
+);
+
+synchroniser #(1) sync_speed_TX(
+    .clk(tx_clk),
+    .rst_n(rst_n),
+    .async_in(speed_status[1]),
+    .sync_out(speed_status_tx_cd)
+);
+
+transmission_FSM tx (
+    .rst_n(tx_rst_n),
     .valid(valid_tx),
     .data(data_in),
-    .speed_status(speed_status[1]),
-    .TXC(TXC),
+    .speed_status(speed_status_tx_cd),
+    .TXC(tx_clk),
     .last_byte(last_byte),
     .TX_CTL(TX_CTL),
     .TXD(TXD),

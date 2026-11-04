@@ -1,3 +1,4 @@
+// loops a 36 byte ARP request from data.mem (DEST, type, ARP). SRC is added by the FSM
 module simple_frame_feeder (
     input TXC,
     input rst_n,

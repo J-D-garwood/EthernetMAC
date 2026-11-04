@@ -17,6 +17,7 @@ reg en;
 wire transmit;
 wire receive_async;
 wire receive;
+reg sampled; // MDIO value held from the latest MDC rising edge
 
 
 reg [7:0] counter;
@@ -61,10 +62,14 @@ always @(posedge clk) begin
  		done <= 0;
 		busy <= 0;
 		MDC_d <= 0;
+		sampled <= 1'b1;
 		ins <= 64'hFFFF_FFFF_FFFF_FFFF;
 		en <= 0;
 	end else begin
 		MDC_d <= MDC;
+		// The PHY may take 60 ns to drive MDIO after MDC rises, so sample at the
+		// next rising edge. Reads use this value on the following falling edge.
+		if ((MDC_d == 1'b0) && (MDC == 1'b1)) sampled <= receive;
 		// USE case (state) as opposed to chain of ifs
 		//counter needs to be reset
 		if ((MDC_d == 1'b1) && (MDC == 1'b0)) begin
@@ -103,7 +108,7 @@ always @(posedge clk) begin
 				end 
 				(1 << TURNAROUND): begin 
 					if (!read) begin ins <= {ins[62:0], 1'b1}; end
-					if (counter == 0) begin // Turnaround time is now 1 clk cycle
+					if (counter == (read ? 1 : 0)) begin // Reads wait one extra cycle for sampled
 						state <= 1 << DATA;
 						counter <= 0;
 					end else begin
@@ -111,14 +116,14 @@ always @(posedge clk) begin
 					end
 				end
 				(1 << DATA): begin
-					if (read) begin buffer <= {buffer[14:0], receive}; end
+					if (read) begin buffer <= {buffer[14:0], sampled}; end
 					else begin ins <= {ins[62:0], 1'b1}; end
 					if (counter == 15) begin
 						state <= 1 << DONE;
 						counter <= 0;
 						done <= 1'b1;
 						busy <= 1'b0;
-						if (read) begin received <= {buffer[14:0], receive}; end
+						if (read) begin received <= {buffer[14:0], sampled}; end
 					end else begin
 						counter <= counter + 1;
 					end

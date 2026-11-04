@@ -29,6 +29,7 @@ always @(posedge rclk) begin
         g_rptr <= 0;
     end else begin
         internal_rptr <= R_next;
+        // empty when read catches up to write
         empty <= (internal_wptr == R_next); 
         g_rptr[addr_bits] <= internal_rptr[addr_bits];
         g_rptr[(addr_bits-1):0] <= internal_rptr[addr_bits:1]^internal_rptr[(addr_bits-1):0];

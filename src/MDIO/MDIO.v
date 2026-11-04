@@ -1,3 +1,4 @@
+// wrapper - splits link_status into speed, duplex and link
 module MDIO #(
     parameter CLK_HZ = 125000000,
     parameter MDC_HZ = 12500000

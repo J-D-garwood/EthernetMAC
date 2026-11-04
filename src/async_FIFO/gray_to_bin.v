@@ -1,3 +1,4 @@
+// gray -> binary, each bit XORed with the binary bit above it
 module gray_to_binary #(
     parameter width = 4
 )(

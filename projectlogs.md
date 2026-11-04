@@ -190,5 +190,18 @@ PHY_reset.v
 - Completed transmission FSM and CRC appending logic
 - Created demo frame feeder module w. ARP request
 
-## NEXT STEPS
-- ADD TXC CLOCK GEN LOGIC FOR EACH SPEED SETTING TO MAC.v
+## 02/11/2026
+- Wrote divide clk by even N - for 2.5 MHz (10 Mbps)
+
+## 03/11/2026
+- Added TXC clk gen for each speed to MAC.v (BUFGMUXs)
+- Rewrote constraints file w. timing constraints
+- Fixed RX hold violation w. IDELAYs on RXD and RX_CTL
+- TX frames showing in wireshark, but 1 byte short
+
+## 04/11/2026
+- Debugged RX not receiving - Vivado was using old copies of my files
+- Confirmed RX working, good frames from laptop
+- Fixed TX padding off by one
+- Fixed LUT driving async reset on sync_rst
+- Tidied up comments

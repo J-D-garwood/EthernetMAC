@@ -1,3 +1,4 @@
+// async FIFO - gray pointers cross clock domains through synchronisers
 module FIFO_byte #(
     parameter width = 8,
     parameter addr_bits = 4 //16 mem addresses

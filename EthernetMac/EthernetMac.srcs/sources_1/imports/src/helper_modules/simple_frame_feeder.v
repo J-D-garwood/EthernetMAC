@@ -14,7 +14,7 @@ reg [5:0] idx;
 assign data = mem[idx];
 
 initial begin
-    $readmemh("data.hex", mem);
+    $readmemh("data.mem", mem);
 end
 
 always @(posedge TXC) begin

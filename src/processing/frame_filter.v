@@ -1,3 +1,4 @@
+// only passes payload for my MAC or broadcast
 module frame_filter(
     input clk,
     input rst_n,
@@ -48,6 +49,7 @@ always @(posedge clk) begin
                     byte_3 <= data_Q;
                 end 
 
+                // 4 byte delay line - the CRC bytes get dropped when the frame ends
                 if (receiving_payload) begin
                     new_byte <= new_byte_1;
                     new_byte_1 <= new_byte_2;

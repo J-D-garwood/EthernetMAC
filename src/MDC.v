@@ -6,6 +6,7 @@ module MDC #(
     output MDC
 );
 
+// 5 bit johnson counter -> MDC = clk/10 (12.5 MHz from 125 MHz)
 reg [4:0] johnson_counter;
 
 assign MDC = johnson_counter[0];

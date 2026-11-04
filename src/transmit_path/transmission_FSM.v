@@ -1,3 +1,4 @@
+// builds the frame: preamble, SFD, DEST, SRC, type, data, padding, CRC, then IPG
 module transmission_FSM (
     input rst_n,
     input valid,
@@ -136,7 +137,7 @@ always @(posedge TXC) begin
             end
             (1 << DATA): begin
                 if (last_byte && tx_ready) begin
-                    if (byte_counter>=44) begin
+                    if (byte_counter>=45) begin
                         state <= (1 << CRC);
                         byte_counter <= 32'h0000_0000;
                     end else begin
@@ -146,8 +147,9 @@ always @(posedge TXC) begin
                     sending_CRC <= 1'b1;
                     tx_data <= data;
                     shift_byte <= 1'b0;
+                // pad with zeros up to 46 data bytes
                 end else if (padding && tx_ready) begin
-                    if (byte_counter>=44) begin
+                    if (byte_counter>=45) begin
                         state <= (1 << CRC);
                         sending_CRC <= 1'b1;
                         byte_counter <= 32'h0000_0000;
@@ -160,6 +162,7 @@ always @(posedge TXC) begin
                     tx_data <= data;
                 end
             end
+            // CRC goes out low byte first, inverted
             (1 << CRC): begin
                 if (byte_counter == 3 && tx_ready) begin
                     state <= (1 << INTERPACKET_GAP);
@@ -174,6 +177,7 @@ always @(posedge TXC) begin
                     CRC_run <= 1'b0;
                 end
             end
+            // 12 byte gap (24 cycles below 1G since each byte takes 2)
             (1 << INTERPACKET_GAP): begin
                 if ((speed_status&&byte_counter == 12)||(!speed_status&&byte_counter == 24)) begin
                     state <= (1 << IDLE);

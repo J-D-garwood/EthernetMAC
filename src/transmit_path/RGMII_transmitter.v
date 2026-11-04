@@ -1,7 +1,5 @@
 
-// To fix the module: send the low nibble first, delay en by one clock so it matches the data, 
-// forward TXC through an ODDR, and at 10/100 run TXC at 25/2.5 MHz with each nibble held for a full 
-// TXC cycle and a ready signal so the byte is held until it’s sent.
+// RGMII TX with ODDRs. 1G: byte per TXC. 10/100: nibble per TXC, tx_ready every 2nd clk
 
 
 module RGMII_transmitter(

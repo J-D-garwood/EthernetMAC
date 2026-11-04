@@ -1,3 +1,4 @@
+// odd N at 50% duty - one toggle on posedge, one on negedge, XOR them together
 module divide_clk_by_odd_N #(
     parameter N = 5
 )(
@@ -39,6 +40,7 @@ always @(posedge clk) begin
 end
 endmodule
 
+// old attempts
 //always @(negedge clk) begin
 //    if (!rst_n) begin
 //        fall_switch <= 0;
